@@ -79,12 +79,7 @@ namespace CertificateManagerTest.CertificateManagerService {
     public interface ICertificateManagerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore", ReplyAction="http://tempuri.org/ICertificateManagerService/ListCertificatesInStoreResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
-        System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(System.Security.Cryptography.X509Certificates.X509Store store);
+        System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(string storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/GetData", ReplyAction="http://tempuri.org/ICertificateManagerService/GetDataResponse")]
         string GetData(int value);
@@ -120,8 +115,8 @@ namespace CertificateManagerTest.CertificateManagerService {
                 base(binding, remoteAddress) {
         }
         
-        public System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(System.Security.Cryptography.X509Certificates.X509Store store) {
-            return base.Channel.ListCertificatesInStore(store);
+        public System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(string storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation) {
+            return base.Channel.ListCertificatesInStore(storeName, storeLocation);
         }
         
         public string GetData(int value) {

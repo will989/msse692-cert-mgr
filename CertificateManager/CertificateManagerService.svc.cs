@@ -18,11 +18,14 @@ namespace CertificateManager
 
         //Return a list of certificates
         [WebMethod]
-        public List<X509Certificate2> ListCertificatesInStore(X509Store store)
+        public List<X509Certificate2> ListCertificatesInStore(string storeName, StoreLocation storeLocation)
         {
+            X509Store store = new X509Store(storeName, storeLocation);
             int certCount = 0;
             List<X509Certificate2> certList = new List<X509Certificate2>();
-            store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+
+            //OpenExistingOnly so no exception is thrown for missing AddressBook for example
+            store.Open(OpenFlags.OpenExistingOnly);
 
             X509Certificate2Collection collection = (X509Certificate2Collection)store.Certificates;
 

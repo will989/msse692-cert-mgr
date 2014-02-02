@@ -15,7 +15,7 @@ namespace CertificateManager
     {
 
         [OperationContract]
-        List<X509Certificate2> ListCertificatesInStore(X509Store store);
+        List<X509Certificate2> ListCertificatesInStore(string storeName, StoreLocation storeLocation);
 
         [OperationContract]
         string GetData(int value);

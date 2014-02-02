@@ -83,9 +83,6 @@
     <None Include="Service References\CertificateManagerService\CertificateManagerService3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\CertificateManagerService\CertificateManagerTest.CertificateManagerService.CompositeType.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
