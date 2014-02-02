@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" />
-  <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CertificateManager" />
+  <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/CertificateManager" />
   <xs:element name="ListCertificatesInStore">
     <xs:complexType>
       <xs:sequence>
@@ -14,6 +14,21 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="ListCertificatesInStoreResult" nillable="true" type="q2:ArrayOfX509Certificate2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InstallCertificateLocal">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q3:X509Store" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q4:X509Certificate2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InstallCertificateLocalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InstallCertificateLocalResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -34,14 +49,14 @@
   <xs:element name="GetDataUsingDataContract">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="composite" nillable="true" type="q3:CompositeType" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="composite" nillable="true" type="q5:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetDataUsingDataContractResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q4:CompositeType" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q6:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

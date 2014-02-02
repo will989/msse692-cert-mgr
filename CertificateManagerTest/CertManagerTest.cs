@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using CertificateManagerTest.CertificateManagerService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+
 namespace CertificateManagerTest
 {
     [TestClass]
@@ -112,6 +113,28 @@ namespace CertificateManagerTest
                 }
                 System.Diagnostics.Debug.WriteLine("");
             }
+        }
+
+        [TestMethod]
+        public void TestInstallCertificateLocal()
+        {
+            
+            System.Diagnostics.Debug.WriteLine("Running TestInstallCertificateLocal");
+
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            //create a unique subjectName
+            string subjectName = string.Format("{0:yyyy-MM-dd_hh-mm-ss-tt}", DateTime.Now);
+
+            X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            X509Certificate2 certificate = new X509Certificate2(CreateCertificate.CreateSelfSignedCertificate(subjectName));
+
+            bool added = wsref.InstallCertificateLocal(store, certificate);
+
+            Assert.IsTrue(added);
+
         }
     }
 }

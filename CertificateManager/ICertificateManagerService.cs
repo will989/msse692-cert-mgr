@@ -18,6 +18,9 @@ namespace CertificateManager
         List<X509Certificate2> ListCertificatesInStore(string storeName, StoreLocation storeLocation);
 
         [OperationContract]
+        bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate);
+
+        [OperationContract]
         string GetData(int value);
 
         [OperationContract]

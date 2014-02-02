@@ -81,6 +81,15 @@ namespace CertificateManagerTest.CertificateManagerService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore", ReplyAction="http://tempuri.org/ICertificateManagerService/ListCertificatesInStoreResponse")]
         System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(string storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/InstallCertificateLocal", ReplyAction="http://tempuri.org/ICertificateManagerService/InstallCertificateLocalResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreLocation))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
+        bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/GetData", ReplyAction="http://tempuri.org/ICertificateManagerService/GetDataResponse")]
         string GetData(int value);
         
@@ -117,6 +126,10 @@ namespace CertificateManagerTest.CertificateManagerService {
         
         public System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(string storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation) {
             return base.Channel.ListCertificatesInStore(storeName, storeLocation);
+        }
+        
+        public bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {
+            return base.Channel.InstallCertificateLocal(store, certificate);
         }
         
         public string GetData(int value) {

@@ -57,6 +57,33 @@ namespace CertificateManager
             return certList;
         }
 
+        [WebMethod]
+        public bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate)
+        {
+            
+            //X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
+
+            bool added = false;
+            try
+            {
+                store.Open(OpenFlags.ReadWrite);
+                store.Add(certificate);
+                added = true;
+            }
+            catch (Exception ex)
+            {
+                added = false;
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            
+            finally
+            {
+                store.Close();
+                
+            }
+            return added;
+        }
+
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
