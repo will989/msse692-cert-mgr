@@ -47,10 +47,10 @@ namespace CertificateManager
                         System.Diagnostics.Debug.WriteLine("THE COUNTS WERE DIFFERENT {0}, {1}", certCount,
                             collection.Count);
                     }
-                    store.Close();
+                    
                 }
             }
-
+            store.Close();
             return certList;
         }
 
