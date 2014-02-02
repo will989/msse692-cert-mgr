@@ -90,6 +90,15 @@ namespace CertificateManagerTest.CertificateManagerService {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
         bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocal", ReplyAction="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocalResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreLocation))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
+        bool RemoveCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/GetData", ReplyAction="http://tempuri.org/ICertificateManagerService/GetDataResponse")]
         string GetData(int value);
         
@@ -130,6 +139,10 @@ namespace CertificateManagerTest.CertificateManagerService {
         
         public bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {
             return base.Channel.InstallCertificateLocal(store, certificate);
+        }
+        
+        public bool RemoveCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {
+            return base.Channel.RemoveCertificateLocal(store, certificate);
         }
         
         public string GetData(int value) {

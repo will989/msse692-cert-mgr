@@ -84,6 +84,32 @@ namespace CertificateManager
             return added;
         }
 
+        [WebMethod]
+        public bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate)
+        {
+
+            bool removed = false;
+            try
+            {
+                store.Open(OpenFlags.ReadWrite);
+                store.Remove(certificate);
+                removed = true;
+            }
+            catch (Exception ex)
+            {
+                removed = false;
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            
+            finally
+            {
+                store.Close();
+                
+            }
+ 
+            return removed;
+        }
+
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);

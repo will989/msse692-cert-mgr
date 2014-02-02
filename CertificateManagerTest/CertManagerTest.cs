@@ -131,10 +131,108 @@ namespace CertificateManagerTest
             X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
             X509Certificate2 certificate = new X509Certificate2(CreateCertificate.CreateSelfSignedCertificate(subjectName));
 
+            int count = store.Certificates.Count;
+
             bool added = wsref.InstallCertificateLocal(store, certificate);
 
-            Assert.IsTrue(added);
+           Assert.IsTrue(added);
 
         }
+
+        [TestMethod]
+        public void TestRemoveCertificateLocal()
+        {
+            bool removed = false;
+            System.Diagnostics.Debug.WriteLine("Running TestRemoveCertificateLocal");
+
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadWrite);
+            System.Diagnostics.Debug.WriteLine("Store info:");
+            System.Diagnostics.Debug.WriteLine("Store Name: {0}", store.Name);
+            System.Diagnostics.Debug.WriteLine("Store Location: {0}", store.Location);
+
+            string certificateName = "2014";
+
+            string thumbprint = "‎fd0fc22532bb346e2239810ce2dbfd8ce2dbc911".ToUpper();
+
+            System.Diagnostics.Debug.WriteLine("Cert Thumbprint: {0}", thumbprint);
+
+            /*  DEBUG STUFF...****************************************************************************************************
+            //X509Certificate2Collection certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, true);
+            X509Certificate2Collection certificates2 = store.Certificates.Find(X509FindType.FindBySubjectName, certificateName, true);
+            foreach (X509Certificate2 certificate3 in certificates2)
+            {
+                byte[] rawdata = certificate3.RawData;
+                System.Diagnostics.Debug.WriteLine("Properties of certificate");
+                System.Diagnostics.Debug.WriteLine("Certificate Simple Name: {0}",
+                    certificate3.GetNameInfo(X509NameType.SimpleName, true));
+                System.Diagnostics.Debug.WriteLine("Certificate start date (NotBefore): {0}",
+                    certificate3.NotBefore);
+                System.Diagnostics.Debug.WriteLine("Certificate expiration date (NotAfter): {0}",
+                    certificate3.NotAfter);
+                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}",
+                    certificate3.Thumbprint);
+                System.Diagnostics.Debug.WriteLine("Certificate SerialNumber {0}",
+                    certificate3.SerialNumber);
+                System.Diagnostics.Debug.WriteLine(
+                    "********************************************************");
+            }
+            */
+
+            X509Certificate2Collection certificates = store.Certificates;
+
+            foreach (X509Certificate2 certificate2 in certificates)
+            {
+                byte[] rawdata = certificate2.RawData;
+                System.Diagnostics.Debug.WriteLine("Properties of certificate");
+                System.Diagnostics.Debug.WriteLine("Certificate Simple Name: {0}",
+                    certificate2.GetNameInfo(X509NameType.SimpleName, true));
+                System.Diagnostics.Debug.WriteLine("Certificate start date (NotBefore): {0}",
+                    certificate2.NotBefore);
+                System.Diagnostics.Debug.WriteLine("Certificate expiration date (NotAfter): {0}",
+                    certificate2.NotAfter);
+                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}",
+                    certificate2.Thumbprint);
+                System.Diagnostics.Debug.WriteLine("Certificate SerialNumber {0}",
+                    certificate2.SerialNumber);
+                System.Diagnostics.Debug.WriteLine(
+                    "********************************************************");
+            }
+
+            int count = certificates.Count;
+            System.Diagnostics.Debug.WriteLine("Certificates found count = {0}", count);
+
+
+            if (certificates.Count > 0)
+            {
+                System.Diagnostics.Debug.WriteLine("in certificates.Count loop");
+                foreach (X509Certificate2 certificate2 in certificates)
+                {
+                    System.Diagnostics.Debug.WriteLine("certificate2.SimpleName = {0}", certificate2.GetNameInfo(X509NameType.SimpleName, false));
+                    //if (certificate2.Thumbprint != null && certificate2.Thumbprint.Equals(thumbprint))
+                    var nameInfo = certificate2.GetNameInfo(X509NameType.SimpleName, false);
+                    if (nameInfo != null && nameInfo.ToString().Contains(certificateName))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Found a match!");
+                        removed = wsref.RemoveCertificateLocal(store, certificate2);
+                        
+                        //2/2/14:
+                        //This works when uncommented, but needs to be in the web service instead
+                        //store.Open(OpenFlags.ReadWrite);
+                        //store.Remove(certificate);
+                        //removed = true;
+                    }
+                }
+            }
+            
+            Assert.IsTrue(removed);
+
+
+        }
+
     }
 }

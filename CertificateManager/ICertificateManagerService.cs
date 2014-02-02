@@ -21,6 +21,9 @@ namespace CertificateManager
         bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate);
 
         [OperationContract]
+        bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate);
+
+        [OperationContract]
         string GetData(int value);
 
         [OperationContract]
