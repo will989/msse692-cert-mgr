@@ -40,6 +40,28 @@ namespace CertificateManagerTest
 
         }
 
+        [TestMethod]
+        public void TestEnumCertificates()
+        {
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            System.Diagnostics.Debug.WriteLine("Running TestEnumCertificates");
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            StoreName storeName = StoreName.CertificateAuthority;
+
+            string strStoreName = storeName.ToString();
+
+            if (strStoreName.Equals("CertificateAuthority"))
+            {
+                strStoreName = "CA";
+            }
+            System.Diagnostics.Debug.WriteLine("strStoreName = {0}", strStoreName);
+
+            wsref.EnumCertificates(strStoreName, StoreLocation.LocalMachine);
+
+        }
 
         [TestMethod]
         public void TestChangeStoreLocations()
@@ -234,5 +256,57 @@ namespace CertificateManagerTest
 
         }
 
+        [TestMethod]
+        public void TestDeleteCertificateByThumbprintLocal()
+        {
+            bool removed = false;
+            System.Diagnostics.Debug.WriteLine("Running TestRemoveCertificateByThumbprintLocal");
+
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            //assign variables for service call
+            StoreLocation storeLocation = new StoreLocation();
+            storeLocation = StoreLocation.LocalMachine;
+
+            string certificateName = "CN=2014-02-02_11-18-34-AM";
+            //this string didn't work
+            //string thumbprint = "‎fd0fc22532bb346e2239810ce2dbfd8ce2dbc911".ToUpper();
+
+            //copied same thumbprint from cert mgr and removed spaces, but still doesn't match:
+            //string thumbprint = "‎fd0fc22532bb346e2239810ce2dbfd8ce2dbc911".ToUpper();
+            
+            //this one did delete the certificate
+            //string thumbprint = "5edb577eb2b62efd3196bfad81cba7acc89aa14c".ToUpper();
+
+            //third try, this worked, too
+            //string thumbprint = "78e0797ae57a345e9656e7f8de90c586170a85d8".ToUpper();
+
+            //fourth try, didn't workkkll345rrrrrrrrwq:
+            string thumbprint = "‎d692f85f29d09208640b96f88591858e775b499e".ToUpper();
+
+
+
+            string storeName = "CA";
+
+            System.Diagnostics.Debug.WriteLine("Cert Thumbprint: {0}", thumbprint);
+
+                        //System.Diagnostics.Debug.WriteLine("Found a match!");
+                        removed = wsref.DeleteCertificateByThumbprint(certificateName, thumbprint, storeName ,storeLocation);
+                        
+                        //2/2/14:
+                        //This works when uncommented, but needs to be in the web service instead
+                        //store.Open(OpenFlags.ReadWrite);
+                        //store.Remove(certificate);
+                        //removed = true;
+            Assert.IsTrue(removed);
+                    }
+            
+            
+
+
+        }
+
     }
-}
+

@@ -81,20 +81,39 @@ namespace CertificateManagerTest.CertificateManagerService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore", ReplyAction="http://tempuri.org/ICertificateManagerService/ListCertificatesInStoreResponse")]
         System.Security.Cryptography.X509Certificates.X509Certificate2[] ListCertificatesInStore(string storeName, System.Security.Cryptography.X509Certificates.StoreLocation storeLocation);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/PrintCertificateInfo", ReplyAction="http://tempuri.org/ICertificateManagerService/PrintCertificateInfoResponse")]
+        void PrintCertificateInfo(System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/EnumCertificatesByStoreName", ReplyAction="http://tempuri.org/ICertificateManagerService/EnumCertificatesByStoreNameResponse" +
+            "")]
+        void EnumCertificatesByStoreName(System.Security.Cryptography.X509Certificates.StoreName name, System.Security.Cryptography.X509Certificates.StoreLocation location);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/EnumCertificates", ReplyAction="http://tempuri.org/ICertificateManagerService/EnumCertificatesResponse")]
+        void EnumCertificates(string name, System.Security.Cryptography.X509Certificates.StoreLocation location);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/InstallCertificateLocal", ReplyAction="http://tempuri.org/ICertificateManagerService/InstallCertificateLocalResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreLocation))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreName))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
         bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/DeleteCertificate", ReplyAction="http://tempuri.org/ICertificateManagerService/DeleteCertificateResponse")]
+        bool DeleteCertificate(string certificateName, string storeName, System.Security.Cryptography.X509Certificates.StoreLocation location);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/DeleteCertificateByThumbprint", ReplyAction="http://tempuri.org/ICertificateManagerService/DeleteCertificateByThumbprintRespon" +
+            "se")]
+        bool DeleteCertificateByThumbprint(string certificateName, string thumbprint, string storeName, System.Security.Cryptography.X509Certificates.StoreLocation location);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocal", ReplyAction="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocalResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreLocation))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate2))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.X509Certificate))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Security.Cryptography.X509Certificates.StoreName))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CertificateManagerTest.CertificateManagerService.CompositeType))]
         bool RemoveCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate);
@@ -137,8 +156,28 @@ namespace CertificateManagerTest.CertificateManagerService {
             return base.Channel.ListCertificatesInStore(storeName, storeLocation);
         }
         
+        public void PrintCertificateInfo(System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {
+            base.Channel.PrintCertificateInfo(certificate);
+        }
+        
+        public void EnumCertificatesByStoreName(System.Security.Cryptography.X509Certificates.StoreName name, System.Security.Cryptography.X509Certificates.StoreLocation location) {
+            base.Channel.EnumCertificatesByStoreName(name, location);
+        }
+        
+        public void EnumCertificates(string name, System.Security.Cryptography.X509Certificates.StoreLocation location) {
+            base.Channel.EnumCertificates(name, location);
+        }
+        
         public bool InstallCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {
             return base.Channel.InstallCertificateLocal(store, certificate);
+        }
+        
+        public bool DeleteCertificate(string certificateName, string storeName, System.Security.Cryptography.X509Certificates.StoreLocation location) {
+            return base.Channel.DeleteCertificate(certificateName, storeName, location);
+        }
+        
+        public bool DeleteCertificateByThumbprint(string certificateName, string thumbprint, string storeName, System.Security.Cryptography.X509Certificates.StoreLocation location) {
+            return base.Channel.DeleteCertificateByThumbprint(certificateName, thumbprint, storeName, location);
         }
         
         public bool RemoveCertificateLocal(System.Security.Cryptography.X509Certificates.X509Store store, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate) {

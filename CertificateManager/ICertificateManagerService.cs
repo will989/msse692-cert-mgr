@@ -18,7 +18,23 @@ namespace CertificateManager
         List<X509Certificate2> ListCertificatesInStore(string storeName, StoreLocation storeLocation);
 
         [OperationContract]
+        void PrintCertificateInfo(X509Certificate2 certificate);
+
+        [OperationContract]
+        void EnumCertificatesByStoreName(StoreName name, StoreLocation location);
+
+        [OperationContract]
+        void EnumCertificates(string name, StoreLocation location);
+
+        [OperationContract]
         bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate);
+
+        [OperationContract]
+        bool DeleteCertificate(string certificateName, string storeName, StoreLocation location);
+
+        [OperationContract]
+        bool DeleteCertificateByThumbprint(string certificateName, string thumbprint, string storeName,
+            StoreLocation location);
 
         [OperationContract]
         bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate);

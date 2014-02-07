@@ -15,11 +15,41 @@
   <wsdl:message name="ICertificateManagerService_ListCertificatesInStore_OutputMessage">
     <wsdl:part name="parameters" element="tns:ListCertificatesInStoreResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_PrintCertificateInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:PrintCertificateInfo" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_PrintCertificateInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PrintCertificateInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_EnumCertificatesByStoreName_InputMessage">
+    <wsdl:part name="parameters" element="tns:EnumCertificatesByStoreName" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_EnumCertificatesByStoreName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EnumCertificatesByStoreNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_EnumCertificates_InputMessage">
+    <wsdl:part name="parameters" element="tns:EnumCertificates" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_EnumCertificates_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EnumCertificatesResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateManagerService_InstallCertificateLocal_InputMessage">
     <wsdl:part name="parameters" element="tns:InstallCertificateLocal" />
   </wsdl:message>
   <wsdl:message name="ICertificateManagerService_InstallCertificateLocal_OutputMessage">
     <wsdl:part name="parameters" element="tns:InstallCertificateLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_DeleteCertificate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCertificate" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_DeleteCertificate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCertificateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_DeleteCertificateByThumbprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCertificateByThumbprint" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_DeleteCertificateByThumbprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCertificateByThumbprintResponse" />
   </wsdl:message>
   <wsdl:message name="ICertificateManagerService_RemoveCertificateLocal_InputMessage">
     <wsdl:part name="parameters" element="tns:RemoveCertificateLocal" />
@@ -44,9 +74,29 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore" message="tns:ICertificateManagerService_ListCertificatesInStore_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStoreResponse" message="tns:ICertificateManagerService_ListCertificatesInStore_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="PrintCertificateInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/PrintCertificateInfo" message="tns:ICertificateManagerService_PrintCertificateInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/PrintCertificateInfoResponse" message="tns:ICertificateManagerService_PrintCertificateInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EnumCertificatesByStoreName">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/EnumCertificatesByStoreName" message="tns:ICertificateManagerService_EnumCertificatesByStoreName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/EnumCertificatesByStoreNameResponse" message="tns:ICertificateManagerService_EnumCertificatesByStoreName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EnumCertificates">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/EnumCertificates" message="tns:ICertificateManagerService_EnumCertificates_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/EnumCertificatesResponse" message="tns:ICertificateManagerService_EnumCertificates_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="InstallCertificateLocal">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/InstallCertificateLocal" message="tns:ICertificateManagerService_InstallCertificateLocal_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/InstallCertificateLocalResponse" message="tns:ICertificateManagerService_InstallCertificateLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCertificate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/DeleteCertificate" message="tns:ICertificateManagerService_DeleteCertificate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/DeleteCertificateResponse" message="tns:ICertificateManagerService_DeleteCertificate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCertificateByThumbprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/DeleteCertificateByThumbprint" message="tns:ICertificateManagerService_DeleteCertificateByThumbprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/DeleteCertificateByThumbprintResponse" message="tns:ICertificateManagerService_DeleteCertificateByThumbprint_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RemoveCertificateLocal">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocal" message="tns:ICertificateManagerService_RemoveCertificateLocal_InputMessage" />
@@ -72,8 +122,53 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="PrintCertificateInfo">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/PrintCertificateInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnumCertificatesByStoreName">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/EnumCertificatesByStoreName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnumCertificates">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/EnumCertificates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="InstallCertificateLocal">
       <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/InstallCertificateLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCertificate">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/DeleteCertificate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCertificateByThumbprint">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/DeleteCertificateByThumbprint" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
