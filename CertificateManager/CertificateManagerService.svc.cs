@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
@@ -204,21 +205,28 @@ namespace CertificateManager
                 {
                     foreach (X509Certificate2 certificate in certificates)
 
+                    {
+                        int result = String.Compare(certificate.Thumbprint, thumbprint, new CultureInfo("en-US"), 
+                            CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreWidth | CompareOptions.IgnoreCase);
+
+                        System.Diagnostics.Debug.WriteLine("result = {0}", result);
+
+                        if (result != 0)
                         {
-                            if (certificate.Thumbprint.Equals(thumbprint))
-                            {
-                                store.Remove(certificate);
-                                success = true;
-                                break;
-                            }
-                            else
                             {
                                 System.Diagnostics.Debug.WriteLine("certificate.Thumbprint: {0}", certificate.Thumbprint);
                                 System.Diagnostics.Debug.WriteLine("does not equal");
                                 System.Diagnostics.Debug.WriteLine("This cert thumbprint..: {0}", thumbprint);
-
                             }
                         }
+                        else
+                        {
+                            store.Remove(certificate);
+                            success = true;
+                            break;
+                        }
+                        // else
+                    }
                 }
             }
             catch (Exception ex)

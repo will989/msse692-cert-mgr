@@ -283,7 +283,7 @@ namespace CertificateManagerTest
             //third try, this worked, too
             //string thumbprint = "78e0797ae57a345e9656e7f8de90c586170a85d8".ToUpper();
 
-            //fourth try, didn't workkkll345rrrrrrrrwq:
+            //fourth try, didn't work until I added the "String.Compare..." stuff to the method:
             string thumbprint = "‎d692f85f29d09208640b96f88591858e775b499e".ToUpper();
 
 
