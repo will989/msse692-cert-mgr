@@ -40,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CSharpDriver-1.7.0.4714\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CSharpDriver-1.7.0.4714\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -60,13 +66,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CertificateManagerService.svc" />
+    <Content Include="CertificateWarehouseService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CertificateManagerService.svc.cs">
       <DependentUpon>CertificateManagerService.svc</DependentUpon>
     </Compile>
+    <Compile Include="CertificateWarehouseService.svc.cs">
+      <DependentUpon>CertificateWarehouseService.svc</DependentUpon>
+    </Compile>
     <Compile Include="ICertificateManagerService.cs" />
+    <Compile Include="ICertificateWarehouseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +90,12 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CertificateManager.Data\CertificateManager.Data.csproj">
+      <Project>{e7802018-0574-4481-a0f4-44ea5c69bb84}</Project>
+      <Name>CertificateManager.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

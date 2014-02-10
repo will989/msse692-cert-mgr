@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CertificateManager.CertificateWarehouse" CodeBehind="CertificateWarehouseService.svc.cs" %>

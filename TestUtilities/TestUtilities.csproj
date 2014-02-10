@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{27E2C030-D461-4362-8DD5-59C49494678C}</ProjectGuid>
+    <ProjectGuid>{701C16D4-A9DF-4224-A1A5-CF54A563F9E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CertificateManagerTest</RootNamespace>
-    <AssemblyName>CertificateManagerTest</AssemblyName>
+    <RootNamespace>TestUtilities</RootNamespace>
+    <AssemblyName>TestUtilities</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -39,9 +39,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,39 +53,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CertManagerTest.cs" />
+    <Compile Include="CreateCertificate.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\CertificateManagerService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\DataSources\System.Security.Cryptography.X509Certificates.X509Certificate2.datasource" />
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.wsdl" />
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerTest.CertificateManagerService.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="CERTENROLLLib">
@@ -100,30 +67,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\CertificateManagerService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
-      <Project>{701c16d4-a9df-4224-a1a5-cf54a563f9e6}</Project>
-      <Name>TestUtilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

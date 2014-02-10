@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5d309938-7d5e-4f91-a347-bb8e64e3db3a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:53407/CertificateWarehouseService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="CertificateWarehouse.wsdl" MetadataType="Wsdl" ID="449afc0c-2bea-4441-86ef-c5c9fb7d2ec9" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?wsdl" />
+    <MetadataFile FileName="CertificateWarehouseService.xsd" MetadataType="Schema" ID="e5ac592a-9beb-4df0-bda5-c331109ccb30" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?xsd=xsd3" />
+    <MetadataFile FileName="CertificateWarehouseService1.xsd" MetadataType="Schema" ID="7ffa1855-be09-4efc-ab7e-3eafa845b982" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?xsd=xsd2" />
+    <MetadataFile FileName="CertificateWarehouseService2.xsd" MetadataType="Schema" ID="fbccd8d4-94a4-4102-ae3a-7131488955f9" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?xsd=xsd1" />
+    <MetadataFile FileName="CertificateWarehouseService.disco" MetadataType="Disco" ID="a7d6a849-658d-4bb6-838b-c484707c642b" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?disco" />
+    <MetadataFile FileName="CertificateWarehouseService3.xsd" MetadataType="Schema" ID="3a26d745-eacd-46ac-8d70-ae4cba60865e" SourceId="1" SourceUrl="http://localhost:53407/CertificateWarehouseService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

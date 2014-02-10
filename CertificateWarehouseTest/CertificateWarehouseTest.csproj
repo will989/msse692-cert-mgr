@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{27E2C030-D461-4362-8DD5-59C49494678C}</ProjectGuid>
+    <ProjectGuid>{8E9F42A1-0C7C-4FF0-98A3-F0FB6D6DF19B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CertificateManagerTest</RootNamespace>
-    <AssemblyName>CertificateManagerTest</AssemblyName>
+    <RootNamespace>CertificateWarehouseTest</RootNamespace>
+    <AssemblyName>CertificateWarehouseTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CSharpDriver-1.7.0.4714\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CSharpDriver-1.7.0.4714\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -56,74 +62,68 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CertManagerTest.cs" />
+    <Compile Include="CertWarehouseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\CertificateManagerService\Reference.cs">
+    <Compile Include="Service References\CertificateWarehouseService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\DataSources\System.Security.Cryptography.X509Certificates.X509Certificate2.datasource" />
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.wsdl" />
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CertificateManagerService\CertificateManagerTest.CertificateManagerService.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="CERTENROLLLib">
-      <Guid>{728AB348-217D-11DA-B2A4-000E7BBB2B09}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\CertificateManagerService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\CertificateManagerService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CertificateManagerService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\CertificateManager.Data\CertificateManager.Data.csproj">
+      <Project>{e7802018-0574-4481-a0f4-44ea5c69bb84}</Project>
+      <Name>CertificateManager.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CertificateManagerTest\CertificateManagerTest.csproj">
+      <Project>{27e2c030-d461-4362-8dd5-59c49494678c}</Project>
+      <Name>CertificateManagerTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CertificateManager\CertificateManager.csproj">
+      <Project>{41839d11-0f35-4e39-95e0-648e84ece62e}</Project>
+      <Name>CertificateManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
       <Project>{701c16d4-a9df-4224-a1a5-cf54a563f9e6}</Project>
       <Name>TestUtilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouse.wsdl" />
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\CertificateWarehouseService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CertificateWarehouseService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CertificateWarehouseService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CertificateWarehouseService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

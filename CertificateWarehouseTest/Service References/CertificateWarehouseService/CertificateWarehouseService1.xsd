@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CertificateManager.Data.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CertificateManager.Data.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:53407/CertificateWarehouseService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MongoDB.Bson" />
+  <xs:complexType name="OrganizationCertificate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Active" type="xs:boolean" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="CertificateId" type="q1:ObjectId" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="OrganizationId" type="q2:ObjectId" />
+      <xs:element minOccurs="0" name="Purpose" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OrganizationCertificate" nillable="true" type="tns:OrganizationCertificate" />
+  <xs:complexType name="Organization">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MongoEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OrganizationCertificates" nillable="true" type="tns:ArrayOfOrganizationCertificate" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Organization" nillable="true" type="tns:Organization" />
+  <xs:complexType name="MongoEntity">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="Id" type="q3:ObjectId" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MongoEntity" nillable="true" type="tns:MongoEntity" />
+  <xs:complexType name="ArrayOfOrganizationCertificate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OrganizationCertificate" nillable="true" type="tns:OrganizationCertificate" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrganizationCertificate" nillable="true" type="tns:ArrayOfOrganizationCertificate" />
+  <xs:complexType name="Certificate">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MongoEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Content" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ExpirationDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
+          <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Thumbprint" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Certificate" nillable="true" type="tns:Certificate" />
+</xs:schema>
