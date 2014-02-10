@@ -26,6 +26,9 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/AddCertificateToDatabase", ReplyAction="http://tempuri.org/ICertificateWarehouseService/AddCertificateToDatabaseResponse")]
         bool AddCertificateToDatabase(CertificateManager.Data.Entities.Certificate certificate);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateById", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateByIdResponse")]
+        CertificateManager.Data.Entities.Certificate GetCertificateById(string certificateId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/DoWork", ReplyAction="http://tempuri.org/ICertificateWarehouseService/DoWorkResponse")]
         void DoWork();
     }
@@ -67,6 +70,10 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         
         public bool AddCertificateToDatabase(CertificateManager.Data.Entities.Certificate certificate) {
             return base.Channel.AddCertificateToDatabase(certificate);
+        }
+        
+        public CertificateManager.Data.Entities.Certificate GetCertificateById(string certificateId) {
+            return base.Channel.GetCertificateById(certificateId);
         }
         
         public void DoWork() {

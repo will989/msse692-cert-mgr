@@ -12,6 +12,33 @@ namespace CertificateWarehouseTest
     [TestClass]
     public class CertWarehouseTests
     {
+
+        [TestMethod]
+        public void FindCertificateByIdTest()
+        {
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+            //get certificate by id  52f81ef35b66e82f50d02ade
+            Certificate certificate = wsref.GetCertificateById("52f81ef35b66e82f50d02ade");
+
+            bool certFound;
+
+            //if we're able to retrieve a property then the certificate was returned
+            if (certificate.IsDeleted == true || certificate.IsDeleted == false)
+                certFound = true;
+            else
+            {
+                certFound = false;
+            }
+
+
+            System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+
+            Assert.IsTrue(certFound);
+
+        }
         [TestMethod]
         public void AddOrganizationTest()
         {
@@ -76,12 +103,17 @@ namespace CertificateWarehouseTest
 
             OrganizationCertificate organizationCertificate = new OrganizationCertificate();
 
+            
+            //get certificate by id  52f81ef35b66e82f50d02ade
+            Certificate certificate = wsref.GetCertificateById("52f81ef35b66e82f50d02ade");
+
 
             //set organizationId
             string organizationId = "52f7ed2f5b66e8377430d324";
 
             organizationCertificate.Purpose = 1;
             organizationCertificate.Active = true;
+            organizationCertificate.CertificateId = certificate.Id;
 
             
             //add certificate to test organization

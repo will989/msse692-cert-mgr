@@ -26,6 +26,12 @@
   <wsdl:message name="ICertificateWarehouseService_AddCertificateToDatabase_OutputMessage">
     <wsdl:part name="parameters" element="tns:AddCertificateToDatabaseResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificateById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificateById" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificateById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificateByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateWarehouseService_DoWork_InputMessage">
     <wsdl:part name="parameters" element="tns:DoWork" />
   </wsdl:message>
@@ -44,6 +50,10 @@
     <wsdl:operation name="AddCertificateToDatabase">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/AddCertificateToDatabase" message="tns:ICertificateWarehouseService_AddCertificateToDatabase_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/AddCertificateToDatabaseResponse" message="tns:ICertificateWarehouseService_AddCertificateToDatabase_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificateById">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateById" message="tns:ICertificateWarehouseService_GetCertificateById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByIdResponse" message="tns:ICertificateWarehouseService_GetCertificateById_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/DoWork" message="tns:ICertificateWarehouseService_DoWork_InputMessage" />
@@ -72,6 +82,15 @@
     </wsdl:operation>
     <wsdl:operation name="AddCertificateToDatabase">
       <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/AddCertificateToDatabase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificateById">
+      <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

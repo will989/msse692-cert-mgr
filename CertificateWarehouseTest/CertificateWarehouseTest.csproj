@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\DataSources\CertificateManager.Data.Entities.Certificate.datasource" />
     <None Include="Service References\CertificateWarehouseService\CertificateWarehouse.wsdl" />
     <None Include="Service References\CertificateWarehouseService\CertificateWarehouseService.xsd">
       <SubType>Designer</SubType>

@@ -5,7 +5,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Active" type="xs:boolean" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="CertificateId" type="q1:ObjectId" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="OrganizationId" type="q2:ObjectId" />
       <xs:element minOccurs="0" name="Purpose" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
@@ -23,7 +22,7 @@
   <xs:element name="Organization" nillable="true" type="tns:Organization" />
   <xs:complexType name="MongoEntity">
     <xs:sequence>
-      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="Id" type="q3:ObjectId" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MongoDB.Bson" minOccurs="0" name="Id" type="q2:ObjectId" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MongoEntity" nillable="true" type="tns:MongoEntity" />

@@ -62,6 +62,25 @@ namespace CertificateManager
         }
 
         [WebMethod]
+        public Certificate GetCertificateById(string certificateId)
+        {
+
+            //create ObjectId from certificateId passed in
+            var certificateObjectId = new ObjectId(certificateId);
+
+            //get connection to database
+            var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+
+
+            Certificate certificate = mongoConnectionHandler.MongoCollection.FindOneById(certificateId);
+
+            System.Diagnostics.Debug.WriteLine("Certificate info....");
+            System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+
+            return certificate;
+        }
+
+        [WebMethod]
         public bool AddCertificateToDatabase(Certificate certificate)
         {
             bool added;

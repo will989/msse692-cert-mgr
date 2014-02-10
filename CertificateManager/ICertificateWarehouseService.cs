@@ -22,6 +22,9 @@ namespace CertificateManager
         bool AddCertificateToDatabase(Certificate certificate);
 
         [OperationContract]
+        Certificate GetCertificateById(string certificateId);
+
+        [OperationContract]
         void DoWork();
     }
 }
