@@ -29,6 +29,12 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateById", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateByIdResponse")]
         CertificateManager.Data.Entities.Certificate GetCertificateById(string certificateId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByName", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateByNameResponse")]
+        CertificateManager.Data.Entities.Certificate GetCertificateByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetails", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetailsResponse")]
+        CertificateManager.Data.Entities.Certificate[] GetCertificatesDetails(int limit, int skip);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/DoWork", ReplyAction="http://tempuri.org/ICertificateWarehouseService/DoWorkResponse")]
         void DoWork();
     }
@@ -74,6 +80,14 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         
         public CertificateManager.Data.Entities.Certificate GetCertificateById(string certificateId) {
             return base.Channel.GetCertificateById(certificateId);
+        }
+        
+        public CertificateManager.Data.Entities.Certificate GetCertificateByName(string name) {
+            return base.Channel.GetCertificateByName(name);
+        }
+        
+        public CertificateManager.Data.Entities.Certificate[] GetCertificatesDetails(int limit, int skip) {
+            return base.Channel.GetCertificatesDetails(limit, skip);
         }
         
         public void DoWork() {

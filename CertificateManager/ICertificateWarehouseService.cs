@@ -25,6 +25,12 @@ namespace CertificateManager
         Certificate GetCertificateById(string certificateId);
 
         [OperationContract]
+        Certificate GetCertificateByName(string name);
+
+        [OperationContract]
+        IEnumerable<Certificate> GetCertificatesDetails(int limit, int skip);
+
+        [OperationContract]
         void DoWork();
     }
 }

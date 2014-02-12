@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Web.Services;
+using System.Web.UI.WebControls;
 using CertificateManager.Data;
 using CertificateManager.Data.Entities;
 using MongoDB.Bson;
@@ -67,17 +69,83 @@ namespace CertificateManager
 
             //create ObjectId from certificateId passed in
             var certificateObjectId = new ObjectId(certificateId);
+            var certificate = new Certificate();
 
+            try
+            {
+                //get connection to database
+                var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+
+                //next two lines from docs.mongodb.org http://docs.mongodb.org/ecosystem/tutorial/getting-started-with-csharp-driver/
+                //query = Query<Certificate>.EQ(c => c.Id, certificateId);
+                //var query = Query<Certificate>.EQ<Certificate>(ObjectId.Parse(certificateId));
+                
+                //other possibilities:
+                //certificate = mongoConnectionHandler.MongoCollection.FindOneById(ObjectId.Parse(certificateId));
+               // certificate = mongoConnectionHandler.MongoCollection.FindOneById(certificateId);
+
+                //but this one works -- remember to convert the string "certificateId" passed in, into a Mongodb Id..
+                certificate = mongoConnectionHandler.MongoCollection.FindOneByIdAs<Certificate>(certificateObjectId);
+
+
+                System.Diagnostics.Debug.WriteLine("Certificate info....");
+
+                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception caught: {0}", ex);
+            }
+
+            return certificate;
+        }
+
+        [WebMethod]
+        public Certificate GetCertificateByName(string name)
+        {
+            
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+            
+            var certificate = new Certificate();
+            var query = Query.And(
+                Query.Matches("Name", BsonRegularExpression.Create(name, "i")),
+                Query.LTE("StartDate", BsonValue.Create(DateTime.Now.AddDays(-7).Date)));
 
+      
+            var certificates = mongoConnectionHandler.MongoCollection.Find(query).
+                            SetSortOrder(SortBy.Descending("StartDate"));
 
-            Certificate certificate = mongoConnectionHandler.MongoCollection.FindOneById(certificateId);
+            //var certificates = mongoConnectionHandler.MongoCollection.FindAll().SetSortOrder(SortBy.Descending());
+
+            foreach (var testcert in certificates)
+            {
+                if (testcert.Name.Equals(name))
+                {
+                    certificate = testcert;
+                    break;
+                }
+
+            }
+            
 
             System.Diagnostics.Debug.WriteLine("Certificate info....");
             System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
 
             return certificate;
+        }
+
+        [WebMethod]
+        public IEnumerable<Certificate> GetCertificatesDetails(int limit, int skip)
+        {
+            //get connection to database
+            var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+            var certificatesCursor = mongoConnectionHandler.MongoCollection.FindAllAs<Certificate>()
+                .SetSortOrder(SortBy<Certificate>.Descending(c => c.Name))
+                .SetLimit(limit)
+                .SetSkip(skip)
+                .SetFields(Fields<Certificate>.Include(c => c.Id, c => c.Name, c => c.ExpirationDate, c => c.Thumbprint));
+            return certificatesCursor;
         }
 
         [WebMethod]

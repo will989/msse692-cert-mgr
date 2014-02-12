@@ -106,6 +106,7 @@ namespace CertificateManagerTest
                             {
                                 byte[] rawdata = certificate2.RawData;
                                 System.Diagnostics.Debug.WriteLine("Properties of certificate");
+                                System.Diagnostics.Debug.WriteLine("Subject Name: {0}", certificate2.SubjectName.Name);
                                 System.Diagnostics.Debug.WriteLine("Certificate Simple Name: {0}",
                                     certificate2.GetNameInfo(X509NameType.SimpleName, true));
                                 System.Diagnostics.Debug.WriteLine("Certificate start date (NotBefore): {0}",
@@ -188,6 +189,7 @@ namespace CertificateManagerTest
             {
                 byte[] rawdata = certificate2.RawData;
                 System.Diagnostics.Debug.WriteLine("Properties of certificate");
+                System.Diagnostics.Debug.WriteLine("Subject Name: {0}", certificate2.SubjectName.Name);
                 System.Diagnostics.Debug.WriteLine("Certificate Simple Name: {0}",
                     certificate2.GetNameInfo(X509NameType.SimpleName, true));
                 System.Diagnostics.Debug.WriteLine("Certificate start date (NotBefore): {0}",

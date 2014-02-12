@@ -39,6 +39,35 @@ namespace CertificateWarehouseTest
             Assert.IsTrue(certFound);
 
         }
+
+        [TestMethod]
+        public void FindCertificateByNameTest()
+        {
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+            //get certificate by name
+            Certificate certificate = wsref.GetCertificateByName("CN=2014-02-11_06-53-35-PM");
+
+            bool certFound;
+
+            //if we're able to retrieve a property then the certificate was returned
+            if (certificate.IsDeleted == true || certificate.IsDeleted == false)
+                certFound = true;
+            else
+            {
+                certFound = false;
+            }
+
+
+            System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+
+            Assert.IsTrue(certFound);
+
+        }
+
+
         [TestMethod]
         public void AddOrganizationTest()
         {
@@ -77,6 +106,7 @@ namespace CertificateWarehouseTest
             X509Certificate2 testCertificate2 =
                 new X509Certificate2(CreateCertificate.CreateSelfSignedCertificate(subjectName));
 
+            certificate.Name = testCertificate2.SubjectName.Name;
             certificate.StartDate = testCertificate2.NotBefore;
             certificate.EndDate = testCertificate2.NotAfter;
             certificate.IsDeleted = false;

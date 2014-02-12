@@ -58,6 +58,35 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetCertificateByName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCertificateByNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CertificateManager.Data.Entities" minOccurs="0" name="GetCertificateByNameResult" nillable="true" type="q5:Certificate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCertificatesDetails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="limit" type="xs:int" />
+        <xs:element minOccurs="0" name="skip" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCertificatesDetailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CertificateManager.Data.Entities" minOccurs="0" name="GetCertificatesDetailsResult" nillable="true" type="q6:ArrayOfCertificate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="DoWork">
     <xs:complexType>
       <xs:sequence />

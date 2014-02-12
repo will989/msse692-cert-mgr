@@ -40,6 +40,7 @@
           <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="ExpirationDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="IsDeleted" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
           <xs:element minOccurs="0" name="Thumbprint" nillable="true" type="xs:string" />
         </xs:sequence>
@@ -47,4 +48,10 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="Certificate" nillable="true" type="tns:Certificate" />
+  <xs:complexType name="ArrayOfCertificate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Certificate" nillable="true" type="tns:Certificate" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCertificate" nillable="true" type="tns:ArrayOfCertificate" />
 </xs:schema>
