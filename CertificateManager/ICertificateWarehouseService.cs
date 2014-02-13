@@ -28,6 +28,9 @@ namespace CertificateManager
         Certificate GetCertificateByName(string name);
 
         [OperationContract]
+        Certificate GetCertificateByThumbprint(string thumbprint);
+
+        [OperationContract]
         IEnumerable<Certificate> GetCertificatesDetails(int limit, int skip);
 
         [OperationContract]

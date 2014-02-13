@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 using System.Web.Services;
@@ -12,6 +13,7 @@ using CertificateManager.Data.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 using MongoDB.Driver.Internal;
 
 namespace CertificateManager
@@ -103,22 +105,30 @@ namespace CertificateManager
         [WebMethod]
         public Certificate GetCertificateByName(string name)
         {
-            
+
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
-            
+
             var certificate = new Certificate();
-            var query = Query.And(
-                Query.Matches("Name", BsonRegularExpression.Create(name, "i")),
-                Query.LTE("StartDate", BsonValue.Create(DateTime.Now.AddDays(-7).Date)));
 
-      
-            var certificates = mongoConnectionHandler.MongoCollection.Find(query).
-                            SetSortOrder(SortBy.Descending("StartDate"));
+            //get the collection
+            var collection = mongoConnectionHandler.MongoCollection;
 
-            //var certificates = mongoConnectionHandler.MongoCollection.FindAll().SetSortOrder(SortBy.Descending());
+            //for debug mostly, how many certificates are in the collection?
+            var result =
+    (from c in collection.AsQueryable<Certificate>()
+     select c)
+    .Count();
 
-            foreach (var testcert in certificates)
+            System.Diagnostics.Debug.WriteLine("Result = {0}", result);
+
+            //this is our query -- is there a cert that matches the thumbprint passed in?
+            var query = from c in collection.AsQueryable()
+                        where c.Name == name
+                        select c;
+
+            //should only be one match, but this loop works either way
+            foreach (var testcert in query)
             {
                 if (testcert.Name.Equals(name))
                 {
@@ -134,6 +144,51 @@ namespace CertificateManager
 
             return certificate;
         }
+
+
+        [WebMethod]
+        public Certificate GetCertificateByThumbprint(string thumbprint)
+        {
+
+            //get connection to database
+            var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+
+            var certificate = new Certificate();
+
+            //get the collection
+            var collection = mongoConnectionHandler.MongoCollection;
+
+            //for debug mostly, how many certificates are in the collection?
+            var result =
+    (from c in collection.AsQueryable<Certificate>()
+     select c)
+    .Count();
+
+            System.Diagnostics.Debug.WriteLine("Result = {0}", result);
+            
+            //this is our query -- is there a cert that matches the thumbprint passed in?
+            var query = from c in collection.AsQueryable()
+                where c.Thumbprint == thumbprint
+                select c;
+
+            //should only be one match, but this loop works either way
+            foreach (var testcert in query)
+            {
+                if (testcert.Thumbprint.Equals(thumbprint))
+                {
+                    certificate = testcert;
+                    break;
+                }
+
+            }
+            
+
+            System.Diagnostics.Debug.WriteLine("Certificate info....");
+            System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+
+            return certificate;
+        }
+
 
         [WebMethod]
         public IEnumerable<Certificate> GetCertificatesDetails(int limit, int skip)

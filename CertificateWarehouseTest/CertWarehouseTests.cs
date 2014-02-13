@@ -35,6 +35,9 @@ namespace CertificateWarehouseTest
 
 
             System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+            System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+            System.Diagnostics.Debug.WriteLine("Thumbprint = {0}", certificate.Thumbprint);
+            System.Diagnostics.Debug.WriteLine("Expiration date = {0}", certificate.ExpirationDate);
 
             Assert.IsTrue(certFound);
 
@@ -47,13 +50,15 @@ namespace CertificateWarehouseTest
             CertificateWarehouseService.CertificateWarehouseServiceClient
                 wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
 
+            const string name = "CN=2014-02-11_06-53-35-PM";
+
             //get certificate by name
-            Certificate certificate = wsref.GetCertificateByName("CN=2014-02-11_06-53-35-PM");
+            Certificate certificate = wsref.GetCertificateByName(name);
 
             bool certFound;
 
             //if we're able to retrieve a property then the certificate was returned
-            if (certificate.IsDeleted == true || certificate.IsDeleted == false)
+            if (certificate.Name.Equals(name))
                 certFound = true;
             else
             {
@@ -62,6 +67,42 @@ namespace CertificateWarehouseTest
 
 
             System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+            System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+            System.Diagnostics.Debug.WriteLine("Thumbprint = {0}", certificate.Thumbprint);
+            System.Diagnostics.Debug.WriteLine("Expiration date = {0}", certificate.ExpirationDate);
+
+            Assert.IsTrue(certFound);
+
+        }
+
+        [TestMethod]
+        public void FindCertificateByThumbprintTest()
+        {
+            const string thumbprint = "4CFF175B12392946F2995CFA9F4BA7F642BE4DB6";
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+            //get certificate by thumbprint - this one should fail:
+            //Certificate certificate = wsref.GetCertificateByThumbprint("4CFF175B12392946F2995CFA9F4BA7F642BE4DB7");
+
+            //this one has the actual thumbprint (ends in B6)
+            Certificate certificate = wsref.GetCertificateByThumbprint(thumbprint);
+
+            bool certFound;
+
+            //if we're able to retrieve a property then the certificate was returned
+            if (certificate.Thumbprint.Equals(thumbprint))
+                certFound = true;
+            else
+            {
+                certFound = false;
+            }
+
+
+            System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+            System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+            System.Diagnostics.Debug.WriteLine("Expiration date = {0}", certificate.ExpirationDate);
 
             Assert.IsTrue(certFound);
 

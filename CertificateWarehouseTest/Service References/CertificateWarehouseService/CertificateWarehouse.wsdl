@@ -38,6 +38,12 @@
   <wsdl:message name="ICertificateWarehouseService_GetCertificateByName_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCertificateByNameResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificateByThumbprint_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificateByThumbprint" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificateByThumbprint_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificateByThumbprintResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateWarehouseService_GetCertificatesDetails_InputMessage">
     <wsdl:part name="parameters" element="tns:GetCertificatesDetails" />
   </wsdl:message>
@@ -70,6 +76,10 @@
     <wsdl:operation name="GetCertificateByName">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByName" message="tns:ICertificateWarehouseService_GetCertificateByName_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByNameResponse" message="tns:ICertificateWarehouseService_GetCertificateByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificateByThumbprint">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByThumbprint" message="tns:ICertificateWarehouseService_GetCertificateByThumbprint_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificateByThumbprintResponse" message="tns:ICertificateWarehouseService_GetCertificateByThumbprint_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetCertificatesDetails">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetails" message="tns:ICertificateWarehouseService_GetCertificatesDetails_InputMessage" />
@@ -120,6 +130,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCertificateByName">
       <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificateByThumbprint">
+      <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/GetCertificateByThumbprint" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
