@@ -194,7 +194,35 @@ namespace CertificateWarehouseTest
 
             Assert.IsTrue(added);
 
+           }
+
+        [TestMethod]
+        public void GetCertificateDetailsTest()
+        {
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+            int length = 0;
+            
+            //get certificate by id  52f81ef35b66e82f50d02ade
+            var certificatesCursor = wsref.GetCertificatesDetails(100, 0);
+
+            if (certificatesCursor != null)
+            {
+                 length = certificatesCursor.Length;
+            }
+
+            foreach (var certificate in certificatesCursor)
+            {
+                System.Diagnostics.Debug.WriteLine("Certificate Name = {0}", certificate.Name);
+                System.Diagnostics.Debug.WriteLine("Certificate Thumbprint = {0}", certificate.Thumbprint);
+                System.Diagnostics.Debug.WriteLine("Certificate Expiration Dt = {0}", certificate.ExpirationDate);
+            }
+            
+            //make sure that the certificatesCursor 
+            Assert.IsTrue(length > 0);
         }
-        
+
     }
 }
