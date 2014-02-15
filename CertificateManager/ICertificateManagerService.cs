@@ -18,6 +18,13 @@ namespace CertificateManager
         List<X509Certificate2> ListCertificatesInStore(string storeName, StoreLocation storeLocation);
 
         [OperationContract]
+        List<X509Certificate2> ListCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
+            string serverName);
+
+        [OperationContract]
+        List<X509Certificate2> ListExpiringCertificatesInStore(string storeName, StoreLocation storeLocation, int days);
+
+        [OperationContract]
         void PrintCertificateInfo(X509Certificate2 certificate);
 
         [OperationContract]
@@ -38,6 +45,10 @@ namespace CertificateManager
 
         [OperationContract]
         bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate);
+
+        [OperationContract]
+        List<X509Certificate2> CompareCertificatesInStore(string storeName, StoreLocation storeLocation,
+            string serverA, string serverB);
 
         [OperationContract]
         string GetData(int value);

@@ -110,6 +110,36 @@ namespace CertificateWarehouseTest
 
 
         [TestMethod]
+        public void DoNotFindCertificateByThumbprintTest()
+        {
+            //get certificate by thumbprint - this one should fail:
+            const string thumbprint = "4CFF175B12392946F2995CFA9F4BA7F642BE4DB7";
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+            //get certificate by thumbprint - this one should fail:
+            Certificate certificate = wsref.GetCertificateByThumbprint(thumbprint);
+
+            bool certFound;
+
+            //if we're able to retrieve a property then the certificate was returned
+            if (certificate.Thumbprint != null && certificate.Thumbprint.Equals(thumbprint))
+                certFound = true;
+            else
+            {
+                certFound = false;
+            }
+            
+            System.Diagnostics.Debug.WriteLine("certFound = {0}", certFound);
+            System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+            System.Diagnostics.Debug.WriteLine("Expiration date = {0}", certificate.ExpirationDate);
+
+            Assert.IsFalse(certFound);
+
+        }
+
+        [TestMethod]
         public void AddOrganizationTest()
         {
             //instantiate web service

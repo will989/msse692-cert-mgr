@@ -17,10 +17,42 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="ListCertificatesInRemoteStore">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q3:StoreLocation" />
+        <xs:element minOccurs="0" name="serverName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListCertificatesInRemoteStoreResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="ListCertificatesInRemoteStoreResult" nillable="true" type="q4:ArrayOfX509Certificate2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListExpiringCertificatesInStore">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q5:StoreLocation" />
+        <xs:element minOccurs="0" name="days" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListExpiringCertificatesInStoreResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="ListExpiringCertificatesInStoreResult" nillable="true" type="q6:ArrayOfX509Certificate2" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="PrintCertificateInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q3:X509Certificate2" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q7:X509Certificate2" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -32,8 +64,8 @@
   <xs:element name="EnumCertificatesByStoreName">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="name" type="q4:StoreName" />
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q5:StoreLocation" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="name" type="q8:StoreName" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q9:StoreLocation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -46,7 +78,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q6:StoreLocation" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q10:StoreLocation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -58,8 +90,8 @@
   <xs:element name="InstallCertificateLocal">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q7:X509Store" />
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q8:X509Certificate2" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q11:X509Store" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q12:X509Certificate2" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -75,7 +107,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="certificateName" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q9:StoreLocation" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q13:StoreLocation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -92,7 +124,7 @@
         <xs:element minOccurs="0" name="certificateName" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="thumbprint" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q10:StoreLocation" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="location" type="q14:StoreLocation" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -106,8 +138,8 @@
   <xs:element name="RemoveCertificateLocal">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q11:X509Store" />
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q12:X509Certificate2" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q15:X509Store" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q16:X509Certificate2" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -115,6 +147,23 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="RemoveCertificateLocalResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CompareCertificatesInStore">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q17:StoreLocation" />
+        <xs:element minOccurs="0" name="serverA" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="serverB" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CompareCertificatesInStoreResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="CompareCertificatesInStoreResult" nillable="true" type="q18:ArrayOfX509Certificate2" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -135,14 +184,14 @@
   <xs:element name="GetDataUsingDataContract">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="composite" nillable="true" type="q13:CompositeType" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="composite" nillable="true" type="q19:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetDataUsingDataContractResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q14:CompositeType" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/CertificateManager" minOccurs="0" name="GetDataUsingDataContractResult" nillable="true" type="q20:CompositeType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

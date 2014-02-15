@@ -42,6 +42,105 @@ namespace CertificateManagerTest
         }
 
         [TestMethod]
+        public void TestListExpiredCertificates()
+        {
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            System.Diagnostics.Debug.WriteLine("Running TestListExpiredCertificates");
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            StoreName storeName = StoreName.CertificateAuthority;
+
+            string strStoreName = storeName.ToString();
+
+            if (strStoreName.Equals("CertificateAuthority"))
+            {
+                strStoreName = "CA";
+            }
+            System.Diagnostics.Debug.WriteLine("strStoreName = {0}", strStoreName);
+
+
+            //check for certificates that expire within 30 days
+            //since one test creates certificates that expire immediately
+            //this should always return >= 1 on the test machine:
+            List<X509Certificate2> certList =
+                new List<X509Certificate2>(wsref.ListExpiringCertificatesInStore(strStoreName, StoreLocation.LocalMachine, 30));
+
+            int size = certList.Count;
+            System.Diagnostics.Debug.WriteLine("certList count = {0}", size);
+
+
+            Assert.IsTrue(size > 0);
+        }
+
+        [TestMethod]
+        public void TestCompareCertificateStoresLocalOnly()
+        {
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            System.Diagnostics.Debug.WriteLine("Running TestCompareCertificateStores");
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            StoreName storeName = StoreName.CertificateAuthority;
+
+            string strStoreName = storeName.ToString();
+
+            if (strStoreName.Equals("CertificateAuthority"))
+            {
+                strStoreName = "CA";
+            }
+            System.Diagnostics.Debug.WriteLine("strStoreName = {0}", strStoreName);
+
+            var storeLocation = StoreLocation.LocalMachine;
+
+            //try the compare function against the same server twice
+            List<X509Certificate2> certList =
+                new List<X509Certificate2>(wsref.CompareCertificatesInStore(strStoreName, storeLocation, "7000Laptop", "7000Laptop"));
+
+            //should be zero since same server is passed twice
+            int size = certList.Count;
+            System.Diagnostics.Debug.WriteLine("certList count = {0}", size);
+
+
+            Assert.IsTrue(size == 0);
+        }
+
+        [TestMethod]
+        public void TestListRemoteCertificateStoreContents()
+        {
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            System.Diagnostics.Debug.WriteLine("Running TestListRemoteCertificateStoreContents");
+            //instantiate web service
+            CertificateManagerService.CertificateManagerServiceClient
+                wsref = new CertificateManagerService.CertificateManagerServiceClient();
+
+            StoreName storeName = StoreName.CertificateAuthority;
+
+            string strStoreName = storeName.ToString();
+
+            if (strStoreName.Equals("CertificateAuthority"))
+            {
+                strStoreName = "CA";
+            }
+            System.Diagnostics.Debug.WriteLine("strStoreName = {0}", strStoreName);
+
+            var storeLocation = StoreLocation.LocalMachine;
+
+            //try to retrieve certificates from a remote CA
+            List<X509Certificate2> certList =
+                new List<X509Certificate2>(wsref.ListCertificatesInRemoteStore(strStoreName, storeLocation, "7000Laptop"));
+
+            //should be greater than 0
+            int size = certList.Count;
+            System.Diagnostics.Debug.WriteLine("certList count = {0}", size);
+
+
+            Assert.IsTrue(size > 0);
+        }
+
+        [TestMethod]
         public void TestEnumCertificates()
         {
             //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);

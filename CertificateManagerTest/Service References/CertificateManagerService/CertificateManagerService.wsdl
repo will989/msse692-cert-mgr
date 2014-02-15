@@ -15,6 +15,18 @@
   <wsdl:message name="ICertificateManagerService_ListCertificatesInStore_OutputMessage">
     <wsdl:part name="parameters" element="tns:ListCertificatesInStoreResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_ListCertificatesInRemoteStore_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListCertificatesInRemoteStore" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_ListCertificatesInRemoteStore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListCertificatesInRemoteStoreResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_ListExpiringCertificatesInStore_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListExpiringCertificatesInStore" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_ListExpiringCertificatesInStore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListExpiringCertificatesInStoreResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateManagerService_PrintCertificateInfo_InputMessage">
     <wsdl:part name="parameters" element="tns:PrintCertificateInfo" />
   </wsdl:message>
@@ -57,6 +69,12 @@
   <wsdl:message name="ICertificateManagerService_RemoveCertificateLocal_OutputMessage">
     <wsdl:part name="parameters" element="tns:RemoveCertificateLocalResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_CompareCertificatesInStore_InputMessage">
+    <wsdl:part name="parameters" element="tns:CompareCertificatesInStore" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateManagerService_CompareCertificatesInStore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CompareCertificatesInStoreResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateManagerService_GetData_InputMessage">
     <wsdl:part name="parameters" element="tns:GetData" />
   </wsdl:message>
@@ -73,6 +91,14 @@
     <wsdl:operation name="ListCertificatesInStore">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore" message="tns:ICertificateManagerService_ListCertificatesInStore_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInStoreResponse" message="tns:ICertificateManagerService_ListCertificatesInStore_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListCertificatesInRemoteStore">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInRemoteStore" message="tns:ICertificateManagerService_ListCertificatesInRemoteStore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/ListCertificatesInRemoteStoreResponse" message="tns:ICertificateManagerService_ListCertificatesInRemoteStore_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListExpiringCertificatesInStore">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/ListExpiringCertificatesInStore" message="tns:ICertificateManagerService_ListExpiringCertificatesInStore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/ListExpiringCertificatesInStoreResponse" message="tns:ICertificateManagerService_ListExpiringCertificatesInStore_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="PrintCertificateInfo">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/PrintCertificateInfo" message="tns:ICertificateManagerService_PrintCertificateInfo_InputMessage" />
@@ -102,6 +128,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocal" message="tns:ICertificateManagerService_RemoveCertificateLocal_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocalResponse" message="tns:ICertificateManagerService_RemoveCertificateLocal_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="CompareCertificatesInStore">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/CompareCertificatesInStore" message="tns:ICertificateManagerService_CompareCertificatesInStore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/CompareCertificatesInStoreResponse" message="tns:ICertificateManagerService_CompareCertificatesInStore_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateManagerService/GetData" message="tns:ICertificateManagerService_GetData_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateManagerService/GetDataResponse" message="tns:ICertificateManagerService_GetData_OutputMessage" />
@@ -115,6 +145,24 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="ListCertificatesInStore">
       <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/ListCertificatesInStore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListCertificatesInRemoteStore">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/ListCertificatesInRemoteStore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListExpiringCertificatesInStore">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/ListExpiringCertificatesInStore" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -178,6 +226,15 @@
     </wsdl:operation>
     <wsdl:operation name="RemoveCertificateLocal">
       <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/RemoveCertificateLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompareCertificatesInStore">
+      <soap:operation soapAction="http://tempuri.org/ICertificateManagerService/CompareCertificatesInStore" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

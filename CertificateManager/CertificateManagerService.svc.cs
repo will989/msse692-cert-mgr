@@ -56,6 +56,99 @@ namespace CertificateManager
             return certList;
         }
 
+        //Return a list of certificates from remote machine
+        [WebMethod]
+        public List<X509Certificate2> ListCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
+            string serverName)
+        {
+            // trying to concatenate the server name and store name for remote connection:
+            string newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            var store = new X509Store(newStoreName, storeLocation);
+
+
+            int certCount = 0;
+
+            var certList = new List<X509Certificate2>();
+            try
+            {
+                //OpenExistingOnly so no exception is thrown for missing AddressBook for example
+                store.Open(OpenFlags.OpenExistingOnly);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Cannot connect to remote machine: {0}", serverName));
+            }
+
+            var collection = (X509Certificate2Collection) store.Certificates;
+
+            System.Diagnostics.Debug.WriteLine("The collection's size is {0}", collection.Count);
+
+            foreach (X509Certificate2 x509 in collection)
+            {
+                try
+                {
+                    certList.Add(x509);
+                }
+                catch (CryptographicException)
+                {
+                    Console.WriteLine("CryptographicException caught.");
+                }
+                finally
+                {
+                    certCount = certList.Count;
+                    System.Diagnostics.Debug.WriteLine("The list's size is {0}", certList.Count);
+                    if (certCount != collection.Count)
+                    {
+                        System.Diagnostics.Debug.WriteLine("THE COUNTS WERE DIFFERENT {0}, {1}", certCount,
+                            collection.Count);
+                    }
+                }
+            }
+            store.Close();
+            return certList;
+        }
+
+
+        [WebMethod]
+        public List<X509Certificate2> ListExpiringCertificatesInStore(string storeName, StoreLocation storeLocation,
+            int days)
+        {
+            //X509Store store = new X509Store(storeName, storeLocation);
+            int certCount = 0;
+            List<X509Certificate2> expiringCertList = new List<X509Certificate2>();
+            var today = DateTime.Now;
+
+            //OpenExistingOnly so no exception is thrown for missing AddressBook for example
+            // store.Open(OpenFlags.OpenExistingOnly);
+
+            List<X509Certificate2> testStoreList = ListCertificatesInStore(storeName, storeLocation);
+            //X509Certificate2Collection collection = (X509Certificate2Collection)store.Certificates;
+            //System.Diagnostics.Debug.WriteLine("The collection's size is {0}", collection.Count);
+
+            foreach (X509Certificate2 x509 in testStoreList)
+            {
+                //we want to add the number of days from today so we know whether the certificate will still be good then
+                if (x509.NotAfter <= today.AddDays(days))
+                {
+                    try
+                    {
+                        expiringCertList.Add(x509);
+                    }
+                    catch (CryptographicException)
+                    {
+                        Console.WriteLine("CryptographicException caught.");
+                    }
+                    finally
+                    {
+                        certCount = expiringCertList.Count;
+                        System.Diagnostics.Debug.WriteLine("The list's size is {0}", expiringCertList.Count);
+                    }
+                }
+            }
+            //store.Close();
+            return expiringCertList;
+        }
+
         [WebMethod]
         public void PrintCertificateInfo(X509Certificate2 certificate)
         {
@@ -109,7 +202,8 @@ namespace CertificateManager
                     System.Diagnostics.Debug.WriteLine("Valid from: {0}", certificate.NotBefore);
                     System.Diagnostics.Debug.WriteLine("Valid until: {0}", certificate.NotAfter);
                     System.Diagnostics.Debug.WriteLine("Serial number: {0}", certificate.SerialNumber);
-                    System.Diagnostics.Debug.WriteLine("Signature Algorithm: {0}", certificate.SignatureAlgorithm.FriendlyName);
+                    System.Diagnostics.Debug.WriteLine("Signature Algorithm: {0}",
+                        certificate.SignatureAlgorithm.FriendlyName);
                     System.Diagnostics.Debug.WriteLine("Thumbprint: {0}", certificate.Thumbprint);
                     System.Diagnostics.Debug.WriteLine("");
                 }
@@ -193,7 +287,7 @@ namespace CertificateManager
             {
                 store.Open(OpenFlags.ReadWrite);
 
-                System.Diagnostics.Debug.WriteLine("Calling EnumCertificates...",thumbprint);
+                System.Diagnostics.Debug.WriteLine("Calling EnumCertificates...", thumbprint);
                 //EnumCertificates(storeName, location);
 
                 X509Certificate2Collection certificates =
@@ -206,7 +300,7 @@ namespace CertificateManager
                     foreach (X509Certificate2 certificate in certificates)
 
                     {
-                        int result = String.Compare(certificate.Thumbprint, thumbprint, new CultureInfo("en-US"), 
+                        int result = String.Compare(certificate.Thumbprint, thumbprint, new CultureInfo("en-US"),
                             CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreWidth | CompareOptions.IgnoreCase);
 
                         System.Diagnostics.Debug.WriteLine("result = {0}", result);
@@ -282,6 +376,53 @@ namespace CertificateManager
                 composite.StringValue += "Suffix";
             }
             return composite;
+        }
+
+
+        [WebMethod]
+        public List<X509Certificate2> CompareCertificatesInStore(string storeName, StoreLocation storeLocation,
+            string serverA, string serverB)
+        {
+            int certCount = 0;
+
+            //get certificates in remote stores for both servers
+            var storeListA = ListCertificatesInRemoteStore(storeName, storeLocation, serverA);
+            var storeListB = ListCertificatesInRemoteStore(storeName, storeLocation, serverB);
+
+            //compare the contents of serverA and serverB, storing the differences
+            List<X509Certificate2> noMatchingCertListA = storeListA.Except(storeListB).ToList();
+            List<X509Certificate2> noMatchingCertListB = storeListB.Except(storeListA).ToList();
+
+            //this should be the list of certificates that are on one server but not the other
+            var differencesList = noMatchingCertListA.Union(noMatchingCertListB).ToList();
+
+//do not think I need this technological terror since I found .Except and .Union
+            /*
+        foreach (X509Certificate2 x509 in storeListA)
+        {
+            foreach (X509Certificate2 x509Certificate2 in storeListB)
+            {
+                if (x509.RawData == x509Certificate2.RawData)
+                {
+                    try
+                    {
+                        matchingCertList.Add(x509);
+                    }
+                    catch (CryptographicException ce)
+                    {
+                        Console.WriteLine("CryptographicException caught: {0}", ce);
+                    }
+                    finally
+                    {
+
+                        System.Diagnostics.Debug.WriteLine("The list's size is {0}", matchingCertList.Count);
+
+                    }
+                }
+            }//end inner foreach
+        }//end outer foreach
+        */
+            return differencesList;
         }
     }
 }
