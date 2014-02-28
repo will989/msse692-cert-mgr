@@ -101,6 +101,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetCertificatesByExpirationDate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="futureDays" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCertificatesByExpirationDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/CertificateManager.Data.Entities" minOccurs="0" name="GetCertificatesByExpirationDateResult" nillable="true" type="q8:ArrayOfCertificate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="DoWork">
     <xs:complexType>
       <xs:sequence />

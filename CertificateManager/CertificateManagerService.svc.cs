@@ -61,8 +61,18 @@ namespace CertificateManager
         public List<X509Certificate2> ListCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
             string serverName)
         {
-            // trying to concatenate the server name and store name for remote connection:
-            string newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            string newStoreName = null;
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now
+                newStoreName = string.Format("{0}", storeName);
+            }
             var store = new X509Store(newStoreName, storeLocation);
 
 

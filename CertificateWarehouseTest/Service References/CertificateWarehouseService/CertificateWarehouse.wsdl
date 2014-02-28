@@ -50,6 +50,12 @@
   <wsdl:message name="ICertificateWarehouseService_GetCertificatesDetails_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCertificatesDetailsResponse" />
   </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificatesByExpirationDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificatesByExpirationDate" />
+  </wsdl:message>
+  <wsdl:message name="ICertificateWarehouseService_GetCertificatesByExpirationDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCertificatesByExpirationDateResponse" />
+  </wsdl:message>
   <wsdl:message name="ICertificateWarehouseService_DoWork_InputMessage">
     <wsdl:part name="parameters" element="tns:DoWork" />
   </wsdl:message>
@@ -84,6 +90,10 @@
     <wsdl:operation name="GetCertificatesDetails">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetails" message="tns:ICertificateWarehouseService_GetCertificatesDetails_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetailsResponse" message="tns:ICertificateWarehouseService_GetCertificatesDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificatesByExpirationDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesByExpirationDate" message="tns:ICertificateWarehouseService_GetCertificatesByExpirationDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesByExpirationDateResponse" message="tns:ICertificateWarehouseService_GetCertificatesByExpirationDate_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/ICertificateWarehouseService/DoWork" message="tns:ICertificateWarehouseService_DoWork_InputMessage" />
@@ -148,6 +158,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCertificatesDetails">
       <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCertificatesByExpirationDate">
+      <soap:operation soapAction="http://tempuri.org/ICertificateWarehouseService/GetCertificatesByExpirationDate" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

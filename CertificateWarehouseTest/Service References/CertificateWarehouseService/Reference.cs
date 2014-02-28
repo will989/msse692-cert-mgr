@@ -39,6 +39,10 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetails", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificatesDetailsResponse")]
         CertificateManager.Data.Entities.Certificate[] GetCertificatesDetails(int limit, int skip);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/GetCertificatesByExpirationDate", ReplyAction="http://tempuri.org/ICertificateWarehouseService/GetCertificatesByExpirationDateRe" +
+            "sponse")]
+        CertificateManager.Data.Entities.Certificate[] GetCertificatesByExpirationDate(int futureDays);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICertificateWarehouseService/DoWork", ReplyAction="http://tempuri.org/ICertificateWarehouseService/DoWorkResponse")]
         void DoWork();
     }
@@ -96,6 +100,10 @@ namespace CertificateWarehouseTest.CertificateWarehouseService {
         
         public CertificateManager.Data.Entities.Certificate[] GetCertificatesDetails(int limit, int skip) {
             return base.Channel.GetCertificatesDetails(limit, skip);
+        }
+        
+        public CertificateManager.Data.Entities.Certificate[] GetCertificatesByExpirationDate(int futureDays) {
+            return base.Channel.GetCertificatesByExpirationDate(futureDays);
         }
         
         public void DoWork() {

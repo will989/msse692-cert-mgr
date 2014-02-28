@@ -254,5 +254,28 @@ namespace CertificateWarehouseTest
             Assert.IsTrue(length > 0);
         }
 
+        [TestMethod]
+        public void TestListExpiredCertificates()
+        {
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            System.Diagnostics.Debug.WriteLine("Running TestListExpiredCertificates");
+            //instantiate web service
+            CertificateWarehouseService.CertificateWarehouseServiceClient
+                wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
+
+
+            //check for certificates that expire within 30 days
+            //since one test creates certificates that expire immediately
+            //this should always return >= 1 on the test machine:
+            List<Certificate> certList =
+                new List<Certificate>(wsref.GetCertificatesByExpirationDate(30));
+
+            int size = certList.Count;
+            System.Diagnostics.Debug.WriteLine("certList count = {0}", size);
+
+
+            Assert.IsTrue(size > 0);
+        }
+
     }
 }

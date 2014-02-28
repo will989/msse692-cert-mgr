@@ -34,6 +34,9 @@ namespace CertificateManager
         IEnumerable<Certificate> GetCertificatesDetails(int limit, int skip);
 
         [OperationContract]
+        IEnumerable<Certificate> GetCertificatesByExpirationDate(int futureDays);
+
+        [OperationContract]
         void DoWork();
     }
 }

@@ -21,7 +21,7 @@ namespace CertificateManager.Data
         public MongoConnectionHandler()
              {
 
-            //was trying to use app.config but commented out for now, using an EnvironmentVariable instead
+            //was trying to use app.config or web.config but commented out for now, using an EnvironmentVariable instead
             //string connection = ConfigurationManager.AppSettings.Get("MongoConnectionString");
             //string database = ConfigurationManager.AppSettings.Get("databaseName");
 

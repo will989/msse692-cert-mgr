@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
+using System.Web.Compilation;
 using System.Web.Services;
 using System.Web.UI.WebControls;
 using CertificateManager.Data;
@@ -88,11 +90,25 @@ namespace CertificateManager
 
                 //but this one works -- remember to convert the string "certificateId" passed in, into a Mongodb Id..
                 certificate = mongoConnectionHandler.MongoCollection.FindOneByIdAs<Certificate>(certificateObjectId);
+                string stringId = null;
+                
+                //how to return a string id to client??
+                if (certificate != null)
+                {
+                    ObjectId objectId = new ObjectId();
+                    objectId = certificate.Id;
+                    stringId = objectId.ToString();
+                    //certificate.Id = stringId;
+
+                
 
 
                 System.Diagnostics.Debug.WriteLine("Certificate info....");
+                System.Diagnostics.Debug.WriteLine("Certificate id: {0}", stringId);
+                System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
 
                 System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+                }
             }
             catch (Exception ex)
             {
@@ -137,7 +153,26 @@ namespace CertificateManager
                 }
 
             }
-            
+
+            string stringId = null;
+
+            //how to return a string id to client??
+            if (certificate != null)
+            {
+                ObjectId objectId = new ObjectId();
+                objectId = certificate.Id;
+                stringId = objectId.ToString();
+                //certificate.Id = stringId;
+
+
+
+
+                System.Diagnostics.Debug.WriteLine("Certificate info....");
+                System.Diagnostics.Debug.WriteLine("Certificate id: {0}", stringId);
+                System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+
+                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+            }
 
             System.Diagnostics.Debug.WriteLine("Certificate info....");
             System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
@@ -182,10 +217,22 @@ namespace CertificateManager
 
             }
             
+             string stringId = null;
 
-            System.Diagnostics.Debug.WriteLine("Certificate info....");
-            System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+            //how to return a string id to client??
+            if (certificate != null)
+            {
+                ObjectId objectId = new ObjectId();
+                objectId = certificate.Id;
+                stringId = objectId.ToString();
+                //certificate.Id = stringId;
+                System.Diagnostics.Debug.WriteLine("Certificate info....");
 
+                System.Diagnostics.Debug.WriteLine("Certificate id: {0}", stringId);
+                System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
+
+                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+            }
             return certificate;
         }
 
@@ -202,6 +249,32 @@ namespace CertificateManager
                 .SetFields(Fields<Certificate>.Include(c => c.Id, c => c.Name, c => c.ExpirationDate, c => c.Thumbprint));
             return certificatesCursor;
         }
+
+
+        [WebMethod]
+        public IEnumerable<Certificate> GetCertificatesByExpirationDate(int compareDays)
+        {
+            //get connection to database
+            var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+          
+            //current date & time
+            var today = DateTime.Now;
+
+            //convert to the compare time - compareDays can be negative
+            DateTime compareDateTime = today.AddDays(compareDays);
+            var bsonDocument = new BsonDocument();
+            bsonDocument["date"] = compareDateTime;
+            DateTime dateCompare = bsonDocument["date"].AsDateTime;
+
+            
+            var collection = mongoConnectionHandler.MongoCollection;
+
+            //check for certificates with expiration date earlier than the test date
+            var query = collection.AsQueryable().Where(c => c.ExpirationDate < dateCompare);
+           
+            return query;
+        }
+
 
         [WebMethod]
         public bool AddCertificateToDatabase(Certificate certificate)
