@@ -261,6 +261,8 @@ namespace CertificateManager
             var today = DateTime.Now;
 
             //convert to the compare time - compareDays can be negative
+            //The mongodb docs were useful for this:
+            //http://docs.mongodb.org/ecosystem/tutorial/use-csharp-driver/
             DateTime compareDateTime = today.AddDays(compareDays);
             var bsonDocument = new BsonDocument();
             bsonDocument["date"] = compareDateTime;
