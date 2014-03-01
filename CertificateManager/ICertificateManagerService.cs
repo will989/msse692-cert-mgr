@@ -25,6 +25,10 @@ namespace CertificateManager
         List<X509Certificate2> ListExpiringCertificatesInStore(string storeName, StoreLocation storeLocation, int days);
 
         [OperationContract]
+        List<X509Certificate2> ListExpiringCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
+            int days, string serverName);
+
+        [OperationContract]
         void PrintCertificateInfo(X509Certificate2 certificate);
 
         [OperationContract]
@@ -37,7 +41,13 @@ namespace CertificateManager
         bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate);
 
         [OperationContract]
+        bool InstallCertificateRemote(X509Store store, X509Certificate2 certificate, string serverName);
+
+        [OperationContract]
         bool DeleteCertificate(string certificateName, string storeName, StoreLocation location);
+
+        [OperationContract]
+        bool DeleteCertificateRemote(string certificateName, string storeName, StoreLocation location, string serverName);
 
         [OperationContract]
         bool DeleteCertificateByThumbprint(string certificateName, string thumbprint, string storeName,

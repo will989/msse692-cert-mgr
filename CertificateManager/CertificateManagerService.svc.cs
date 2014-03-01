@@ -160,6 +160,55 @@ namespace CertificateManager
         }
 
         [WebMethod]
+        public List<X509Certificate2> ListExpiringCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
+            int days, string serverName)
+        {
+            //X509Store store = new X509Store(storeName, storeLocation);
+            int certCount = 0;
+            List<X509Certificate2> expiringCertList = new List<X509Certificate2>();
+            var today = DateTime.Now;
+
+            string newStoreName = null;
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now
+                newStoreName = string.Format("{0}", storeName);
+            }
+            var store = new X509Store(newStoreName, storeLocation);
+
+            List<X509Certificate2> testStoreList = ListCertificatesInStore(storeName, storeLocation);
+            
+            foreach (X509Certificate2 x509 in testStoreList)
+            {
+                //we want to add the number of days from today so we know whether the certificate will still be good then
+                if (x509.NotAfter <= today.AddDays(days))
+                {
+                    try
+                    {
+                        expiringCertList.Add(x509);
+                    }
+                    catch (CryptographicException)
+                    {
+                        Console.WriteLine("CryptographicException caught.");
+                    }
+                    finally
+                    {
+                        certCount = expiringCertList.Count;
+                        System.Diagnostics.Debug.WriteLine("The list's size is {0}", expiringCertList.Count);
+                    }
+                }
+            }
+            //store.Close();
+            return expiringCertList;
+        }
+
+        [WebMethod]
         public void PrintCertificateInfo(X509Certificate2 certificate)
         {
             System.Diagnostics.Debug.WriteLine("Name: {0}", certificate.FriendlyName);
@@ -253,6 +302,50 @@ namespace CertificateManager
             return added;
         }
 
+        [WebMethod]
+        public bool InstallCertificateRemote(X509Store store, X509Certificate2 certificate, string serverName)
+        {
+
+            //in this case we get a store passed in, so look inside and get the StoreLocation and Name values:
+            StoreLocation location = store.Location;
+            string newStoreName = store.Name.ToString();
+            string storeName = null;
+            System.Diagnostics.Debug.WriteLine("newStoreName = {0}", newStoreName);
+
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                storeName = string.Format(@"\\{0}\{1}", serverName, newStoreName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now by omitting the \\serverName
+                storeName = string.Format("{0}", newStoreName);
+            }
+
+            X509Store newStore = new X509Store(storeName, location);
+
+            bool added = false;
+            try
+            {
+                newStore.Open(OpenFlags.ReadWrite);
+                newStore.Add(certificate);
+                added = true;
+            }
+            catch (Exception ex)
+            {
+                added = false;
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            finally
+            {
+                newStore.Close();
+            }
+            return added;
+        }
+
 
         [WebMethod]
         public bool DeleteCertificate(string certificateName, string storeName, StoreLocation location)
@@ -260,6 +353,50 @@ namespace CertificateManager
             bool success = false;
 
             X509Store store = new X509Store(storeName, location);
+            try
+            {
+                store.Open(OpenFlags.ReadWrite);
+
+                X509Certificate2Collection certificates =
+                    store.Certificates.Find(X509FindType.FindBySubjectName, certificateName, true);
+
+                if (certificates != null && certificates.Count > 0)
+                {
+                    store.RemoveRange(certificates);
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                store.Close();
+            }
+
+            return success;
+        }
+
+        [WebMethod]
+        public bool DeleteCertificateRemote(string certificateName, string storeName, StoreLocation location, string serverName)
+        {
+            bool success = false;
+
+            string newStoreName = null;
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now
+                newStoreName = string.Format("{0}", storeName);
+            }
+
+            X509Store store = new X509Store(newStoreName, location);
             try
             {
                 store.Open(OpenFlags.ReadWrite);
@@ -406,32 +543,6 @@ namespace CertificateManager
             //this should be the list of certificates that are on one server but not the other
             var differencesList = noMatchingCertListA.Union(noMatchingCertListB).ToList();
 
-//do not think I need this technological terror since I found .Except and .Union
-            /*
-        foreach (X509Certificate2 x509 in storeListA)
-        {
-            foreach (X509Certificate2 x509Certificate2 in storeListB)
-            {
-                if (x509.RawData == x509Certificate2.RawData)
-                {
-                    try
-                    {
-                        matchingCertList.Add(x509);
-                    }
-                    catch (CryptographicException ce)
-                    {
-                        Console.WriteLine("CryptographicException caught: {0}", ce);
-                    }
-                    finally
-                    {
-
-                        System.Diagnostics.Debug.WriteLine("The list's size is {0}", matchingCertList.Count);
-
-                    }
-                }
-            }//end inner foreach
-        }//end outer foreach
-        */
             return differencesList;
         }
     }
