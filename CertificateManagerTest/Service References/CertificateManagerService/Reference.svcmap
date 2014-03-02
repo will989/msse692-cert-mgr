@@ -26,7 +26,6 @@
     <MetadataFile FileName="CertificateManagerService2.xsd" MetadataType="Schema" ID="3f7a0558-6667-496e-b14d-d5b1f2f641a3" SourceId="1" SourceUrl="http://localhost:53407/CertificateManagerService.svc?xsd=xsd0" />
     <MetadataFile FileName="CertificateManagerService3.xsd" MetadataType="Schema" ID="fdd70470-d087-4a57-ace4-362d06012345" SourceId="1" SourceUrl="http://localhost:53407/CertificateManagerService.svc?xsd=xsd1" />
     <MetadataFile FileName="CertificateManagerService.wsdl" MetadataType="Wsdl" ID="4380b1a1-7303-49b9-881f-c55b5a0b8b87" SourceId="1" SourceUrl="http://localhost:53407/CertificateManagerService.svc?wsdl" />
-    <MetadataFile FileName="CertificateManagerService4.xsd" MetadataType="Schema" ID="105da18a-9a03-4f24-b07c-b99436991a9c" SourceId="1" SourceUrl="http://localhost:53407/CertificateManagerService.svc?xsd=xsd4" />
     <MetadataFile FileName="CertificateManagerService.disco" MetadataType="Disco" ID="8b177d28-9fc0-47ca-9e24-a28f8e46550a" SourceId="1" SourceUrl="http://localhost:53407/CertificateManagerService.svc?disco" />
   </Metadata>
   <Extensions>

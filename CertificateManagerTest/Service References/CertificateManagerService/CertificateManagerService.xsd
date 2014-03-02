@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:simpleType name="StoreLocation">
     <xs:restriction base="xs:string">
       <xs:enumeration value="CurrentUser">
@@ -101,10 +100,4 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="StoreName" nillable="true" type="tns:StoreName" />
-  <xs:complexType name="X509Store">
-    <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Certificates" nillable="true" type="q1:ArrayOfanyType" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="X509Store" nillable="true" type="tns:X509Store" />
 </xs:schema>

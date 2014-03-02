@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" />
-  <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/CertificateManager" />
+  <xs:import schemaLocation="http://localhost:53407/CertificateManagerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CertificateManager" />
   <xs:element name="ListCertificatesInStore">
     <xs:complexType>
       <xs:sequence>
@@ -107,7 +107,8 @@
   <xs:element name="InstallCertificateLocal">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q13:X509Store" />
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q13:StoreLocation" />
         <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q14:X509Certificate2" />
       </xs:sequence>
     </xs:complexType>
@@ -122,7 +123,8 @@
   <xs:element name="InstallCertificateRemote">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q15:X509Store" />
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q15:StoreLocation" />
         <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q16:X509Certificate2" />
         <xs:element minOccurs="0" name="serverName" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -188,7 +190,8 @@
   <xs:element name="RemoveCertificateLocal">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="store" nillable="true" type="q20:X509Store" />
+        <xs:element minOccurs="0" name="storeName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="storeLocation" type="q20:StoreLocation" />
         <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/System.Security.Cryptography.X509Certificates" minOccurs="0" name="certificate" nillable="true" type="q21:X509Certificate2" />
       </xs:sequence>
     </xs:complexType>

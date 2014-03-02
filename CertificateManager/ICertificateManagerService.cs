@@ -38,10 +38,10 @@ namespace CertificateManager
         void EnumCertificates(string name, StoreLocation location);
 
         [OperationContract]
-        bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate);
+        bool InstallCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate);
 
         [OperationContract]
-        bool InstallCertificateRemote(X509Store store, X509Certificate2 certificate, string serverName);
+        bool InstallCertificateRemote(string storeName, StoreLocation storeLocation, X509Certificate2 certificate, string serverName);
 
         [OperationContract]
         bool DeleteCertificate(string certificateName, string storeName, StoreLocation location);
@@ -54,7 +54,7 @@ namespace CertificateManager
             StoreLocation location);
 
         [OperationContract]
-        bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate);
+        bool RemoveCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate);
 
         [OperationContract]
         List<X509Certificate2> CompareCertificatesInStore(string storeName, StoreLocation storeLocation,

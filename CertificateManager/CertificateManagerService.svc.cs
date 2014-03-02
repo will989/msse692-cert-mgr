@@ -278,10 +278,70 @@ namespace CertificateManager
         }
 
         [WebMethod]
-        public bool InstallCertificateLocal(X509Store store, X509Certificate2 certificate)
+        public bool InstallCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate)
         {
-            //X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
 
+            System.Diagnostics.Debug.WriteLine("StoreName = {0}", storeName);
+            System.Diagnostics.Debug.WriteLine("StoreLocation = {0}", storeLocation.ToString());
+            bool added = false;
+
+            if (storeName != null)
+            {
+                var store = new X509Store(storeName, storeLocation);
+
+                System.Diagnostics.Debug.WriteLine(" now StoreName = {0}", store.Name.ToString());
+                System.Diagnostics.Debug.WriteLine("now StoreLocation = {0}", store.Location.ToString());
+
+
+                
+                try
+                {
+                    store.Open(OpenFlags.ReadWrite);
+                    store.Add(certificate);
+                    added = true;
+                }
+                catch (Exception ex)
+                {
+                    added = false;
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+
+                finally
+                {
+                    store.Close();
+                }
+                return added;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("StoreName cannot be Null");
+                return added;
+            }
+        }
+
+        [WebMethod]
+        public bool InstallCertificateRemote(string storeName, StoreLocation storeLocation, X509Certificate2 certificate, string serverName)
+        {
+
+            string newStoreName = null;
+
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now
+                newStoreName = string.Format("{0}", storeName);
+            }
+            var store = new X509Store(newStoreName, storeLocation);
+            
+            System.Diagnostics.Debug.WriteLine("newStoreName = {0}", newStoreName);
+            System.Diagnostics.Debug.WriteLine("StoreLocation = {0}", storeLocation.ToString());
+
+           
             bool added = false;
             try
             {
@@ -298,50 +358,6 @@ namespace CertificateManager
             finally
             {
                 store.Close();
-            }
-            return added;
-        }
-
-        [WebMethod]
-        public bool InstallCertificateRemote(X509Store store, X509Certificate2 certificate, string serverName)
-        {
-
-            //in this case we get a store passed in, so look inside and get the StoreLocation and Name values:
-            StoreLocation location = store.Location;
-            string newStoreName = store.Name.ToString();
-            string storeName = null;
-            System.Diagnostics.Debug.WriteLine("newStoreName = {0}", newStoreName);
-
-            //make sure we aren't connecting to localhost, and got a good servername
-            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
-            {
-                // trying to concatenate the server name and store name for remote connection:
-                storeName = string.Format(@"\\{0}\{1}", serverName, newStoreName);
-            }
-            else
-            {
-                //we didn't get a good server name - use local host for now by omitting the \\serverName
-                storeName = string.Format("{0}", newStoreName);
-            }
-
-            X509Store newStore = new X509Store(storeName, location);
-
-            bool added = false;
-            try
-            {
-                newStore.Open(OpenFlags.ReadWrite);
-                newStore.Add(certificate);
-                added = true;
-            }
-            catch (Exception ex)
-            {
-                added = false;
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-
-            finally
-            {
-                newStore.Close();
             }
             return added;
         }
@@ -484,8 +500,9 @@ namespace CertificateManager
 
 
         [WebMethod]
-        public bool RemoveCertificateLocal(X509Store store, X509Certificate2 certificate)
+        public bool RemoveCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate)
         {
+            X509Store store = new X509Store(storeName, storeLocation);
             bool removed = false;
             try
             {

@@ -248,14 +248,15 @@ namespace CertificateManagerTest
 
             //create a unique subjectName
             string subjectName = string.Format("{0:yyyy-MM-dd_hh-mm-ss-tt}", DateTime.Now);
-
-            X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
+            string storeName = "CA";
+            StoreLocation storeLocation = StoreLocation.LocalMachine;
+            //X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
             X509Certificate2 certificate =
                 new X509Certificate2(CreateCertificate.CreateSelfSignedCertificate(subjectName));
 
-            int count = store.Certificates.Count;
+            //int count = store.Certificates.Count;
 
-            bool added = wsref.InstallCertificateLocal(store, certificate);
+            bool added = wsref.InstallCertificateLocal(storeName, storeLocation, certificate);
 
             Assert.IsTrue(added);
         }
@@ -269,7 +270,8 @@ namespace CertificateManagerTest
             //instantiate web service
             CertificateManagerService.CertificateManagerServiceClient
                 wsref = new CertificateManagerService.CertificateManagerServiceClient();
-
+            string storeName = "CA";
+            StoreLocation storeLocation = StoreLocation.LocalMachine;
             X509Store store = new X509Store("CA", StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadWrite);
             System.Diagnostics.Debug.WriteLine("Store info:");
@@ -319,7 +321,7 @@ namespace CertificateManagerTest
                     if (nameInfo != null && nameInfo.ToString().Contains(certificateName))
                     {
                         System.Diagnostics.Debug.WriteLine("Found a match!");
-                        removed = wsref.RemoveCertificateLocal(store, certificate2);
+                        removed = wsref.RemoveCertificateLocal(storeName, storeLocation, certificate2);
 
                         //2/2/14:
                         //This works when uncommented, but needs to be in the web service instead
