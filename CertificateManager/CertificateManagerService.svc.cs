@@ -160,7 +160,8 @@ namespace CertificateManager
         }
 
         [WebMethod]
-        public List<X509Certificate2> ListExpiringCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
+        public List<X509Certificate2> ListExpiringCertificatesInRemoteStore(string storeName,
+            StoreLocation storeLocation,
             int days, string serverName)
         {
             //X509Store store = new X509Store(storeName, storeLocation);
@@ -183,7 +184,7 @@ namespace CertificateManager
             var store = new X509Store(newStoreName, storeLocation);
 
             List<X509Certificate2> testStoreList = ListCertificatesInStore(storeName, storeLocation);
-            
+
             foreach (X509Certificate2 x509 in testStoreList)
             {
                 //we want to add the number of days from today so we know whether the certificate will still be good then
@@ -280,7 +281,6 @@ namespace CertificateManager
         [WebMethod]
         public bool InstallCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate)
         {
-
             System.Diagnostics.Debug.WriteLine("StoreName = {0}", storeName);
             System.Diagnostics.Debug.WriteLine("StoreLocation = {0}", storeLocation.ToString());
             bool added = false;
@@ -292,8 +292,6 @@ namespace CertificateManager
                 System.Diagnostics.Debug.WriteLine(" now StoreName = {0}", store.Name.ToString());
                 System.Diagnostics.Debug.WriteLine("now StoreLocation = {0}", store.Location.ToString());
 
-
-                
                 try
                 {
                     store.Open(OpenFlags.ReadWrite);
@@ -320,9 +318,9 @@ namespace CertificateManager
         }
 
         [WebMethod]
-        public bool InstallCertificateRemote(string storeName, StoreLocation storeLocation, X509Certificate2 certificate, string serverName)
+        public bool InstallCertificateRemote(string storeName, StoreLocation storeLocation, X509Certificate2 certificate,
+            string serverName)
         {
-
             string newStoreName = null;
 
             //make sure we aren't connecting to localhost, and got a good servername
@@ -337,11 +335,11 @@ namespace CertificateManager
                 newStoreName = string.Format("{0}", storeName);
             }
             var store = new X509Store(newStoreName, storeLocation);
-            
+
             System.Diagnostics.Debug.WriteLine("newStoreName = {0}", newStoreName);
             System.Diagnostics.Debug.WriteLine("StoreLocation = {0}", storeLocation.ToString());
 
-           
+
             bool added = false;
             try
             {
@@ -395,7 +393,8 @@ namespace CertificateManager
         }
 
         [WebMethod]
-        public bool DeleteCertificateRemote(string certificateName, string storeName, StoreLocation location, string serverName)
+        public bool DeleteCertificateRemote(string certificateName, string storeName, StoreLocation location,
+            string serverName)
         {
             bool success = false;
 
