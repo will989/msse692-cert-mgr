@@ -18,13 +18,14 @@ using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver.Internal;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+
 namespace CertificateManager
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "CertificateWarehouse" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select CertificateWarehouse.svc or CertificateWarehouse.svc.cs at the Solution Explorer and start debugging.
     public class CertificateWarehouse : ICertificateWarehouseService
     {
-
         [WebMethod]
         public bool AddCertificateToOrganization(string organizationId, OrganizationCertificate organizationCertificate)
         {
@@ -32,7 +33,7 @@ namespace CertificateManager
 
             //create ObjectId from organizationId passed in
             var organizationObjectId = new ObjectId(organizationId);
-            
+
             //don't think I'll use this - probably just be part of the orgCert
             //var certificateObjectId = new ObjectId(certificateId);
 
@@ -43,7 +44,8 @@ namespace CertificateManager
             if (WriteConcern.Acknowledged != null)
             {
                 var updateResult =
-                    mongoConnectionHandler.MongoCollection.Update(Query<Organization>.EQ(o => o.Id, organizationObjectId),
+                    mongoConnectionHandler.MongoCollection.Update(
+                        Query<Organization>.EQ(o => o.Id, organizationObjectId),
                         Update<Organization>.Push(o => o.OrganizationCertificates, organizationCertificate),
                         new MongoUpdateOptions
                         {
@@ -56,7 +58,6 @@ namespace CertificateManager
                 {
                     //// Something went wrong
                     added = false;
-
                 }
                 else
                 {
@@ -70,7 +71,6 @@ namespace CertificateManager
         [WebMethod]
         public Certificate GetCertificateById(string certificateId)
         {
-
             //create ObjectId from certificateId passed in
             var certificateObjectId = new ObjectId(certificateId);
             var certificate = new Certificate();
@@ -83,15 +83,15 @@ namespace CertificateManager
                 //next two lines from docs.mongodb.org http://docs.mongodb.org/ecosystem/tutorial/getting-started-with-csharp-driver/
                 //query = Query<Certificate>.EQ(c => c.Id, certificateId);
                 //var query = Query<Certificate>.EQ<Certificate>(ObjectId.Parse(certificateId));
-                
+
                 //other possibilities:
                 //certificate = mongoConnectionHandler.MongoCollection.FindOneById(ObjectId.Parse(certificateId));
-               // certificate = mongoConnectionHandler.MongoCollection.FindOneById(certificateId);
+                // certificate = mongoConnectionHandler.MongoCollection.FindOneById(certificateId);
 
                 //but this one works -- remember to convert the string "certificateId" passed in, into a Mongodb Id..
                 certificate = mongoConnectionHandler.MongoCollection.FindOneByIdAs<Certificate>(certificateObjectId);
                 string stringId = null;
-                
+
                 //how to return a string id to client??
                 if (certificate != null)
                 {
@@ -100,14 +100,12 @@ namespace CertificateManager
                     stringId = objectId.ToString();
                     //certificate.Id = stringId;
 
-                
 
+                    System.Diagnostics.Debug.WriteLine("Certificate info....");
+                    System.Diagnostics.Debug.WriteLine("Certificate id: {0}", stringId);
+                    System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
 
-                System.Diagnostics.Debug.WriteLine("Certificate info....");
-                System.Diagnostics.Debug.WriteLine("Certificate id: {0}", stringId);
-                System.Diagnostics.Debug.WriteLine("Certificate name = {0}", certificate.Name);
-
-                System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
+                    System.Diagnostics.Debug.WriteLine("Certificate thumbprint: {0}", certificate.Thumbprint);
                 }
             }
             catch (Exception ex)
@@ -121,7 +119,6 @@ namespace CertificateManager
         [WebMethod]
         public Certificate GetCertificateByName(string name)
         {
-
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
 
@@ -132,16 +129,16 @@ namespace CertificateManager
 
             //for debug mostly, how many certificates are in the collection?
             var result =
-    (from c in collection.AsQueryable<Certificate>()
-     select c)
-    .Count();
+                (from c in collection.AsQueryable<Certificate>()
+                    select c)
+                    .Count();
 
             System.Diagnostics.Debug.WriteLine("Result = {0}", result);
 
             //this is our query -- is there a cert that matches the thumbprint passed in?
             var query = from c in collection.AsQueryable()
-                        where c.Name == name
-                        select c;
+                where c.Name == name
+                select c;
 
             //should only be one match, but this loop works either way
             foreach (var testcert in query)
@@ -151,7 +148,6 @@ namespace CertificateManager
                     certificate = testcert;
                     break;
                 }
-
             }
 
             string stringId = null;
@@ -163,8 +159,6 @@ namespace CertificateManager
                 objectId = certificate.Id;
                 stringId = objectId.ToString();
                 //certificate.Id = stringId;
-
-
 
 
                 System.Diagnostics.Debug.WriteLine("Certificate info....");
@@ -184,7 +178,6 @@ namespace CertificateManager
         [WebMethod]
         public Certificate GetCertificateByThumbprint(string thumbprint)
         {
-
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
 
@@ -195,12 +188,12 @@ namespace CertificateManager
 
             //for debug mostly, how many certificates are in the collection?
             var result =
-    (from c in collection.AsQueryable<Certificate>()
-     select c)
-    .Count();
+                (from c in collection.AsQueryable<Certificate>()
+                    select c)
+                    .Count();
 
             System.Diagnostics.Debug.WriteLine("Result = {0}", result);
-            
+
             //this is our query -- is there a cert that matches the thumbprint passed in?
             var query = from c in collection.AsQueryable()
                 where c.Thumbprint == thumbprint
@@ -214,10 +207,9 @@ namespace CertificateManager
                     certificate = testcert;
                     break;
                 }
-
             }
-            
-             string stringId = null;
+
+            string stringId = null;
 
             //how to return a string id to client??
             if (certificate != null)
@@ -256,7 +248,7 @@ namespace CertificateManager
         {
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
-          
+
             //current date & time
             var today = DateTime.Now;
 
@@ -268,12 +260,13 @@ namespace CertificateManager
             bsonDocument["date"] = compareDateTime;
             DateTime dateCompare = bsonDocument["date"].AsDateTime;
 
-            
+
             var collection = mongoConnectionHandler.MongoCollection;
 
             //check for certificates with expiration date earlier than the test date
             var query = collection.AsQueryable().Where(c => c.ExpirationDate < dateCompare);
-           
+
+
             return query;
         }
 
@@ -281,16 +274,27 @@ namespace CertificateManager
         [WebMethod]
         public bool AddCertificateToDatabase(Certificate certificate)
         {
-            bool added;
+            bool added = false;
+            bool error = false;
+            log.Debug("Entering AddCertificateToDatabase");
 
-            var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+            try
+            {
+                var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
 
-            WriteConcern writeConcern = new WriteConcern();
-            writeConcern = WriteConcern.Acknowledged;
+                WriteConcern writeConcern = new WriteConcern();
+                writeConcern = WriteConcern.Acknowledged;
 
-            var createResult = mongoConnectionHandler.MongoCollection.Save(certificate, writeConcern);
+                var createResult = mongoConnectionHandler.MongoCollection.Save(certificate, writeConcern);
 
-            bool error = createResult.HasLastErrorMessage;
+                error = createResult.HasLastErrorMessage;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception caught: {0}", ex);
+                log.Debug("Caught exception in AddCertificateToDatabase: {0}", ex);
+            }
+
 
             if (error == true)
                 added = false;
@@ -305,17 +309,25 @@ namespace CertificateManager
         [WebMethod]
         public bool AddOrganizationToDatabase(Organization organization)
         {
-            bool added;
-            
-            var mongoConnectionHandler = new MongoConnectionHandler<Organization>();
+            bool added = false;
+            bool error = true;
 
+            var mongoConnectionHandler = new MongoConnectionHandler<Organization>();
+            log.Debug("In AddOrganizationToDatabase, got mongoConnectionHandler");
             WriteConcern writeConcern = new WriteConcern();
             writeConcern = WriteConcern.Acknowledged;
+            try
+            {
+                var createResult = mongoConnectionHandler.MongoCollection.Save(organization, writeConcern);
+                error = createResult.HasLastErrorMessage;
+                log.Debug("In AddOrganizationToDatabase, after bool error = createResult");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Caught exception in AddOrganizationToDatabase: {0}", ex);
+                log.Error("Caught exception: {0}", ex);
+            }
             
-            var createResult = mongoConnectionHandler.MongoCollection.Save(organization, writeConcern);
-
-            bool error = createResult.HasLastErrorMessage;
-
             if (error == true)
                 added = false;
             else
@@ -328,5 +340,8 @@ namespace CertificateManager
         public void DoWork()
         {
         }
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+            (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

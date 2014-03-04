@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using CertificateManager;
 using CertificateManager.Data.Entities;
 using CertificateManagerTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtilities;
+
 
 namespace CertificateWarehouseTest
 {
@@ -147,14 +149,19 @@ namespace CertificateWarehouseTest
                 wsref = new CertificateWarehouseService.CertificateWarehouseServiceClient();
 
             Organization organization = new Organization();
-            
+            bool added = false;
             //create a unique organizationName
             string organizationName = string.Format("{0:yyyy-MM-dd_hh-mm-ss-tt}", DateTime.Now);
             organization.Name = organizationName;
             organization.OrganizationCertificates = new List<OrganizationCertificate>();
-
-            bool added = wsref.AddOrganizationToDatabase(organization);
-
+            try
+            {
+                added = wsref.AddOrganizationToDatabase(organization);
+            }
+            catch (TimeoutException te)
+            {
+                System.Diagnostics.Debug.WriteLine("Caught timeout exception: {0}", te);
+            }
             System.Diagnostics.Debug.WriteLine("added = {0}", added);
 
             Assert.IsTrue(added);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace CertificateManager.Data
 {
     using Entities;
@@ -30,6 +31,8 @@ namespace CertificateManager.Data
                 //string connectionString = connection;
                 //string databaseName = database;
 
+            try
+            {
                 //// Get a thread-safe client object by using a connection string
                 var mongoClient = new MongoClient(_connectionString);
 
@@ -43,8 +46,14 @@ namespace CertificateManager.Data
 
                 //// Get a reference to the collection object from the Mongo database object
                 //// The collection name is the type converted to lowercase + "s"
-                MongoCollection = db.GetCollection<T>(typeof(T).Name.ToLower() + "s");
-           // }
+                MongoCollection = db.GetCollection<T>(typeof (T).Name.ToLower() + "s");
+            }
+            catch (Exception ex)
+            {
+                log.Error("Caught exception in MongoConnectionHandler: {0}", ex);
+                throw;
+            }
+            // }
         }
 
         static MongoDatabase retreive_mongohq_db()
@@ -57,5 +66,7 @@ namespace CertificateManager.Data
               .GetDatabase("t2");
 
         }
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

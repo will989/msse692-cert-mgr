@@ -10,6 +10,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Web.Services;
 
+
 namespace CertificateManager
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
@@ -61,6 +62,7 @@ namespace CertificateManager
         public List<X509Certificate2> ListCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
             string serverName)
         {
+            log.Debug("In ListCertificatesInRemoteStore");
             string newStoreName = null;
             //make sure we aren't connecting to localhost, and got a good servername
             if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
@@ -86,7 +88,9 @@ namespace CertificateManager
             }
             catch (Exception ex)
             {
+                log.Error("Caught exception in ListCertificatesInRemoteStore: ", ex);
                 throw new Exception(string.Format("Cannot connect to remote machine: {0}", serverName));
+                
             }
 
             var collection = (X509Certificate2Collection) store.Certificates;
@@ -123,6 +127,7 @@ namespace CertificateManager
         public List<X509Certificate2> ListExpiringCertificatesInStore(string storeName, StoreLocation storeLocation,
             int days)
         {
+            log.Debug("In List ExpiringCertificatesInStore");
             //X509Store store = new X509Store(storeName, storeLocation);
             int certCount = 0;
             List<X509Certificate2> expiringCertList = new List<X509Certificate2>();
@@ -134,9 +139,10 @@ namespace CertificateManager
             List<X509Certificate2> testStoreList = ListCertificatesInStore(storeName, storeLocation);
             //X509Certificate2Collection collection = (X509Certificate2Collection)store.Certificates;
             //System.Diagnostics.Debug.WriteLine("The collection's size is {0}", collection.Count);
-
+            log.Debug("After testStoreList = ListCertificatesInStore");
             foreach (X509Certificate2 x509 in testStoreList)
             {
+                log.Debug("In foreach loop checking for expired certificates");
                 //we want to add the number of days from today so we know whether the certificate will still be good then
                 if (x509.NotAfter <= today.AddDays(days))
                 {
@@ -144,9 +150,14 @@ namespace CertificateManager
                     {
                         expiringCertList.Add(x509);
                     }
-                    catch (CryptographicException)
+                    catch (CryptographicException ce)
                     {
                         Console.WriteLine("CryptographicException caught.");
+                        log.Error("Caught CryptographicException: Unable to list expiring certificats: {0}", ce);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Caught Exception: {0}", ex);
                     }
                     finally
                     {
@@ -164,6 +175,7 @@ namespace CertificateManager
             StoreLocation storeLocation,
             int days, string serverName)
         {
+            log.Debug("In List ExpiringCertificatesInRemoteStore");
             //X509Store store = new X509Store(storeName, storeLocation);
             int certCount = 0;
             List<X509Certificate2> expiringCertList = new List<X509Certificate2>();
@@ -184,9 +196,10 @@ namespace CertificateManager
             var store = new X509Store(newStoreName, storeLocation);
 
             List<X509Certificate2> testStoreList = ListCertificatesInStore(storeName, storeLocation);
-
+            log.Debug("Got testStoreList");
             foreach (X509Certificate2 x509 in testStoreList)
             {
+                log.Debug("In foreach loop checking for expired certificates");
                 //we want to add the number of days from today so we know whether the certificate will still be good then
                 if (x509.NotAfter <= today.AddDays(days))
                 {
@@ -194,9 +207,14 @@ namespace CertificateManager
                     {
                         expiringCertList.Add(x509);
                     }
-                    catch (CryptographicException)
+                    catch (CryptographicException ce)
                     {
                         Console.WriteLine("CryptographicException caught.");
+                        log.Error("Caught CryptographicException: Unable to list expiring certificats: {0}", ce);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Caught Exception: {0}", ex);
                     }
                     finally
                     {
@@ -302,6 +320,7 @@ namespace CertificateManager
                 {
                     added = false;
                     System.Diagnostics.Debug.WriteLine(ex);
+                    log.Error("Caught exception in InstallCertificateLocal: ", ex);
                 }
 
                 finally
@@ -351,6 +370,7 @@ namespace CertificateManager
             {
                 added = false;
                 System.Diagnostics.Debug.WriteLine(ex);
+                log.Error("Unable to add certificate: {0}", ex);
             }
 
             finally
@@ -383,6 +403,7 @@ namespace CertificateManager
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                log.Error("Caught exception in DeleteCertificate: ", ex);
             }
             finally
             {
@@ -561,5 +582,8 @@ namespace CertificateManager
 
             return differencesList;
         }
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     }
 }
