@@ -10,7 +10,7 @@ using System.Text;
 namespace CertificateManager
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
-    [ServiceContract]
+    [ServiceContract(Namespace = "http://CertificateManager")]
     public interface ICertificateManagerService
     {
 
@@ -27,6 +27,14 @@ namespace CertificateManager
         [OperationContract]
         List<X509Certificate2> ListExpiringCertificatesInRemoteStore(string storeName, StoreLocation storeLocation,
             int days, string serverName);
+
+        [OperationContract]
+        List<X509Certificate2> FindCertificateByThumbprint(string storeName, StoreLocation storeLocation,
+            string thumbprint);
+
+        [OperationContract]
+        List<X509Certificate2> FindCertificateByName(string storeName, StoreLocation storeLocation,
+            string name);
 
         [OperationContract]
         void PrintCertificateInfo(X509Certificate2 certificate);

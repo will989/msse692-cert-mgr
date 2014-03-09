@@ -227,6 +227,94 @@ namespace CertificateManager
             return expiringCertList;
         }
 
+        //Return a list of certificates
+        [WebMethod]
+        public List<X509Certificate2> FindCertificateByThumbprint(string storeName, StoreLocation storeLocation, string thumbprint)
+        {
+            X509Store store = new X509Store(storeName, storeLocation);
+            int certCount = 0;
+            List<X509Certificate2> certList = new List<X509Certificate2>();
+
+            //OpenExistingOnly so no exception is thrown for missing AddressBook for example
+            store.Open(OpenFlags.OpenExistingOnly);
+
+            X509Certificate2Collection collection = (X509Certificate2Collection)store.Certificates;
+
+            System.Diagnostics.Debug.WriteLine("The collection's size is {0}", collection.Count);
+
+            foreach (X509Certificate2 x509 in collection)
+            {
+                try
+                {
+                    if (x509.Thumbprint != null && x509.Thumbprint.ToUpper().Equals(thumbprint.ToUpper()))
+                    {
+                        certList.Add(x509);
+                        break;
+                    }
+                }
+                catch (CryptographicException)
+                {
+                    Console.WriteLine("CryptographicException caught.");
+                }
+                finally
+                {
+                    certCount = certList.Count;
+                    System.Diagnostics.Debug.WriteLine("The list's size is {0}", certList.Count);
+                    if (certCount != collection.Count)
+                    {
+                        System.Diagnostics.Debug.WriteLine("THE COUNTS WERE DIFFERENT {0}, {1}", certCount,
+                            collection.Count);
+                    }
+                }
+            }
+            store.Close();
+            return certList;
+        }
+
+        //Return a list of certificates
+        [WebMethod]
+        public List<X509Certificate2> FindCertificateByName(string storeName, StoreLocation storeLocation, string name)
+        {
+            X509Store store = new X509Store(storeName, storeLocation);
+            int certCount = 0;
+            List<X509Certificate2> certList = new List<X509Certificate2>();
+
+            //OpenExistingOnly so no exception is thrown for missing AddressBook for example
+            store.Open(OpenFlags.OpenExistingOnly);
+
+            X509Certificate2Collection collection = (X509Certificate2Collection)store.Certificates;
+
+            System.Diagnostics.Debug.WriteLine("The collection's size is {0}", collection.Count);
+
+            foreach (X509Certificate2 x509 in collection)
+            {
+                try
+                {
+                    if (x509.SubjectName.ToString().ToUpper().Equals(name.ToUpper()))
+                    {
+                        certList.Add(x509);
+                        break;
+                    }
+                }
+                catch (CryptographicException)
+                {
+                    Console.WriteLine("CryptographicException caught.");
+                }
+                finally
+                {
+                    certCount = certList.Count;
+                    System.Diagnostics.Debug.WriteLine("The list's size is {0}", certList.Count);
+                    if (certCount != collection.Count)
+                    {
+                        System.Diagnostics.Debug.WriteLine("THE COUNTS WERE DIFFERENT {0}, {1}", certCount,
+                            collection.Count);
+                    }
+                }
+            }
+            store.Close();
+            return certList;
+        }
+
         [WebMethod]
         public void PrintCertificateInfo(X509Certificate2 certificate)
         {
@@ -518,6 +606,50 @@ namespace CertificateManager
             return success;
         }
 
+        [WebMethod]
+        public bool DeleteCertificateByThumbprintRemote(string thumbprint, string storeName, StoreLocation location,
+            string serverName)
+        {
+            bool success = false;
+
+            string newStoreName = null;
+            //make sure we aren't connecting to localhost, and got a good servername
+            if (!serverName.ToUpper().Equals("LOCALHOST") && serverName.Length > 3)
+            {
+                // trying to concatenate the server name and store name for remote connection:
+                newStoreName = string.Format(@"\\{0}\{1}", serverName, storeName);
+            }
+            else
+            {
+                //we didn't get a good server name - use local host for now
+                newStoreName = string.Format("{0}", storeName);
+            }
+
+            X509Store store = new X509Store(newStoreName, location);
+            try
+            {
+                store.Open(OpenFlags.ReadWrite);
+
+                X509Certificate2Collection certificates =
+                    store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, true);
+
+                if (certificates != null && certificates.Count > 0)
+                {
+                    store.RemoveRange(certificates);
+                    success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                store.Close();
+            }
+
+            return success;
+        }
 
         [WebMethod]
         public bool RemoveCertificateLocal(string storeName, StoreLocation storeLocation, X509Certificate2 certificate)

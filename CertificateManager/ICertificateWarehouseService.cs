@@ -22,6 +22,9 @@ namespace CertificateManager
         bool AddCertificateToDatabase(Certificate certificate);
 
         [OperationContract]
+        bool RemoveCertificateFromDatabase(String thumbprint);
+
+        [OperationContract]
         Certificate GetCertificateById(string certificateId);
 
         [OperationContract]

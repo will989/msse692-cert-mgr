@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
@@ -12,6 +13,7 @@ using System.Web.Services;
 using System.Web.UI.WebControls;
 using CertificateManager.Data;
 using CertificateManager.Data.Entities;
+using CertificateManager.Data.Services;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -305,8 +307,60 @@ namespace CertificateManager
             return added;
         }
 
-
         [WebMethod]
+        public bool RemoveCertificateFromDatabase(String thumbprint)
+        {
+            bool removed = false;
+            bool error = false;
+            log.Debug("Entering RemoveCertificateFromDatabase");
+
+            try
+            {
+                var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+
+                WriteConcern writeConcern = new WriteConcern();
+                writeConcern = WriteConcern.Acknowledged;
+
+                //first, find the certificate using the thumbprint passed in:
+                Certificate certificate = GetCertificateByThumbprint(thumbprint);
+
+                //convert the id to a string
+                string id = certificate.Id.ToString();
+
+                //and remove using the string id as a parameter
+                var result = mongoConnectionHandler.MongoCollection.Remove(
+                    Query<Certificate>.EQ(c => c.Id,
+                        new ObjectId(id)),
+                    RemoveFlags.None,
+                    WriteConcern.Acknowledged);
+
+
+
+                error = result.HasLastErrorMessage;
+            }
+            catch
+                (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception caught: {0}", ex);
+                log.Debug("Caught exception in RemoveCertificateFromDatabase: {0}", ex);
+            }
+            finally
+            {
+            }
+
+
+            if (error == true)
+                    removed = false;
+                else
+                {
+                   removed = true;
+                }
+                return removed;
+            }
+        
+    
+
+    [WebMethod]
         public bool AddOrganizationToDatabase(Organization organization)
         {
             bool added = false;
