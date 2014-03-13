@@ -234,11 +234,20 @@ namespace CertificateManager
         {
             //get connection to database
             var mongoConnectionHandler = new MongoConnectionHandler<Certificate>();
+            var collection = mongoConnectionHandler.MongoCollection;
+            //I will try the next 2 lines if commenting out the .SetFields doesn't fix the problem
+            //otherwise, it is still good to know this other syntax
+            //var query = (from c in collection.AsQueryable<Certificate>() select c).Skip(skip).Take(limit);
+            //return query;
+
+
+            //I think commenting out the last line will give fix the problem in the client
+            //otherwise, try the above
             var certificatesCursor = mongoConnectionHandler.MongoCollection.FindAllAs<Certificate>()
                 .SetSortOrder(SortBy<Certificate>.Descending(c => c.Name))
                 .SetLimit(limit)
-                .SetSkip(skip)
-                .SetFields(Fields<Certificate>.Include(c => c.Id, c => c.Name, c => c.ExpirationDate, c => c.Thumbprint));
+                .SetSkip(skip);
+                //.SetFields(Fields<Certificate>.Include(c => c.Id, c => c.Name, c => c.ExpirationDate, c => c.Thumbprint));
             return certificatesCursor;
         }
 
