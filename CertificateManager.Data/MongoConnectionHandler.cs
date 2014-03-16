@@ -17,7 +17,8 @@ namespace CertificateManager.Data
         
         public MongoCollection<T> MongoCollection { get; private set; }
 
-        private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_URI");
+        private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CUSTOMCONNSTR_CERTMGR_MONGO_URI");
+        private readonly string _database = System.Environment.GetEnvironmentVariable("CUSTOMCONNSTR_CERTMGR_MONGO_DB");
         
         public MongoConnectionHandler()
              {
@@ -35,14 +36,18 @@ namespace CertificateManager.Data
             {
                 //// Get a thread-safe client object by using a connection string
                 var mongoClient = new MongoClient(_connectionString);
+                log.Debug("After mongoClient");
 
                 //// Get a reference to a server object from the Mongo client object
                 var mongoServer = mongoClient.GetServer();
 
                 //// Get a reference to the "certificateManager" database object 
                 //// from the Mongo server object
-                const string databaseName = "certificateManager";
-                var db = mongoServer.GetDatabase(databaseName);
+                // const string databaseName = "certificateManager";
+                //var db = mongoServer.GetDatabase(databaseName);
+                
+
+                var db = mongoServer.GetDatabase(_database);
 
                 //// Get a reference to the collection object from the Mongo database object
                 //// The collection name is the type converted to lowercase + "s"
