@@ -17,12 +17,31 @@ namespace CertificateManager.Data
         
         public MongoCollection<T> MongoCollection { get; private set; }
 
-        private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CUSTOMCONNSTR_CERTMGR_MONGO_URI");
-        private readonly string _database = System.Environment.GetEnvironmentVariable("CUSTOMCONNSTR_CERTMGR_MONGO_DB");
+        private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_URI");
+        private readonly string _database = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_DB");
+
+        
         
         public MongoConnectionHandler()
              {
+            if (_connectionString.Equals("mongodb://certmgr2008/?safe=true"))
+            {
+                log.Debug("_connectionString is good");
+                
+            }
+            else
+            {
+                log.Debug("_connectionString is bad");
+            }
 
+            if (_database.Equals("certificateManager"))
+            {
+                log.Debug("_database is good");
+            }
+            else
+            {
+                log.Debug("_database is bad");
+            }
             //was trying to use app.config or web.config but commented out for now, using an EnvironmentVariable instead
             //string connection = ConfigurationManager.AppSettings.Get("MongoConnectionString");
             //string database = ConfigurationManager.AppSettings.Get("databaseName");
@@ -43,11 +62,11 @@ namespace CertificateManager.Data
 
                 //// Get a reference to the "certificateManager" database object 
                 //// from the Mongo server object
-                // const string databaseName = "certificateManager";
-                //var db = mongoServer.GetDatabase(databaseName);
+                 const string databaseName = "certificateManager";
+                var db = mongoServer.GetDatabase(databaseName);
                 
 
-                var db = mongoServer.GetDatabase(_database);
+                //var db = mongoServer.GetDatabase(_database);
 
                 //// Get a reference to the collection object from the Mongo database object
                 //// The collection name is the type converted to lowercase + "s"

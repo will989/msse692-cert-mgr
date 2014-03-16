@@ -89,6 +89,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\Azure2012.pubxml" />
+    <None Include="Properties\PublishProfiles\CertManager-local filesystem.pubxml" />
     <None Include="Properties\PublishProfiles\certmgr - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\certmgr - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CertMgrVmWare.pubxml" />
