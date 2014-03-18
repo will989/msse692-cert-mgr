@@ -93,6 +93,7 @@
     <None Include="Properties\PublishProfiles\CertManager-local filesystem.pubxml" />
     <None Include="Properties\PublishProfiles\certmgr - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\certmgr - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\certmgr.pubxml" />
     <None Include="Properties\PublishProfiles\CertMgrVmWare.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

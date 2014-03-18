@@ -17,39 +17,17 @@ namespace CertificateManager.Data
         
         public MongoCollection<T> MongoCollection { get; private set; }
 
-        private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_URI");
-        private readonly string _database = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_DB");
+        //these should work but I don't want to mess with it
+        //private readonly string _connectionString = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_URI");
+        //private readonly string _database = System.Environment.GetEnvironmentVariable("CERTMGR_MONGO_DB");
 
-        
-        
+        private readonly string _connectionString = "mongodb://CertMgrMongo:Xdv_WjVaSofIga167ec4EoU36VLUu53L1m9iXaiwpQg-@ds030827.mongolab.com:30827/";
+        private readonly string _database = "CertMgrMongo";
+
+
         public MongoConnectionHandler()
-             {
-            if (_connectionString.Equals("mongodb://certmgr2008/?safe=true"))
-            {
-                log.Debug("_connectionString is good");
-                
-            }
-            else
-            {
-                log.Debug("_connectionString is bad");
-            }
-
-            if (_database.Equals("certificateManager"))
-            {
-                log.Debug("_database is good");
-            }
-            else
-            {
-                log.Debug("_database is bad");
-            }
-            //was trying to use app.config or web.config but commented out for now, using an EnvironmentVariable instead
-            //string connection = ConfigurationManager.AppSettings.Get("MongoConnectionString");
-            //string database = ConfigurationManager.AppSettings.Get("databaseName");
-
-            //if (connection != null)
-            //{
-                //string connectionString = connection;
-                //string databaseName = database;
+         {
+   
 
             try
             {
@@ -62,11 +40,11 @@ namespace CertificateManager.Data
 
                 //// Get a reference to the "certificateManager" database object 
                 //// from the Mongo server object
-                 const string databaseName = "certificateManager";
-                var db = mongoServer.GetDatabase(databaseName);
+                 //const string databaseName = "certificateManager";
+                //var db = mongoServer.GetDatabase(databaseName);
                 
-
-                //var db = mongoServer.GetDatabase(_database);
+                //get database from constant above
+                var db = mongoServer.GetDatabase(_database);
 
                 //// Get a reference to the collection object from the Mongo database object
                 //// The collection name is the type converted to lowercase + "s"
